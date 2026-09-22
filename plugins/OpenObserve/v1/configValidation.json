@@ -1,0 +1,11 @@
+{
+    "steps": [
+        {
+            "displayName": "Authenticate",
+            "dataStream": { "name": "streams" },
+            "required": true,
+            "error": "Could not authenticate. Check your region, organization, email, and password/token.",
+            "success": "Connected successfully."
+        }
+    ]
+}

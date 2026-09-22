@@ -1,0 +1,19 @@
+{
+    "name": "streams",
+    "displayName": "Streams",
+    "description": "Streams registered in the organization, with stats, schema, and settings",
+    "tags": ["Streams"],
+    "baseDataSourceName": "httpRequestUnscoped",
+    "config": {
+        "httpMethod": "get",
+        "endpointPath": "streams",
+        "getArgs": [
+            { "key": "type", "value": "logs" },
+            { "key": "fetchSchema", "value": "false" }
+        ],
+        "pathToData": "list"
+    },
+    "matches": "none",
+    "metadata": [{ "pattern": ".*" }],
+    "timeframes": false
+}
