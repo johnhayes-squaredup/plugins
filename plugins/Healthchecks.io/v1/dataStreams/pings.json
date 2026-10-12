@@ -6,7 +6,7 @@
     "baseDataSourceName": "httpRequestScopedSingle",
     "config": {
         "httpMethod": "get",
-        "endpointPath": "checks/{{object.rawId}}/pings/",
+        "endpointPath": "checks/{{object.uuid || object.rawId}}/pings/",
         "paging": {
             "mode": "none"
         },
@@ -110,11 +110,6 @@
             "name": "n",
             "displayName": "Ping number",
             "shape": "number",
-            "visible": false
-        },
-        {
-            "name": "body_url",
-            "displayName": "Body URL",
             "visible": false
         },
         {

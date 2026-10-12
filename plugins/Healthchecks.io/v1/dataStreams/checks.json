@@ -161,10 +161,21 @@
             "visible": false
         },
         {
+            "name": "uuid",
+            "displayName": "UUID",
+            "shape": "string",
+            "visible": false
+        },
+        {
+            "name": "badge_url",
+            "displayName": "Badge URL",
+            "visible": false
+        },
+        {
             "name": "checkUrl",
             "displayName": "Link",
             "computed": true,
-            "valueExpression": "{{ $['update_url'] ? $['update_url'].replace(/[/]api[/]v[0-9]+[/]checks[/]/, '/checks/') + '/details/' : null }}",
+            "valueExpression": "{{ $['update_url'] ? $['update_url'].replace(/[/]api[/]v[0-9]+[/]checks[/]/, '/checks/') + '/details/' : ($['badge_url'] ? $['badge_url'].replace(/[/]b[/].*$/, '') + '/cloaked/' + $['id'] + '/' : null) }}",
             "shape": ["url", { "label": "Open in Healthchecks.io" }]
         },
         {

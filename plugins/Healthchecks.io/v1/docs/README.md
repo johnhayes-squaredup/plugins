@@ -7,7 +7,7 @@ You will need a Healthchecks.io **project API key**. API keys belong to a single
 1. Sign in to [Healthchecks.io](https://healthchecks.io/accounts/login/) and open the project to monitor.
 2. Go to **Settings** (the project's settings page) and find the **API Access** section.
 3. Click **Create API Keys** if the project has no keys yet. Healthchecks.io creates a **read-write** key and a **read-only** key.
-4. Copy the **read-only** key and paste it into the **API key** field. The plugin never changes anything in Healthchecks.io, and a read-only key covers everything except the ping log (see [Known limitations](#known-limitations)). Use the read-write key instead if you want job run times and the ping log.
+4. Copy the **read-only** key and paste it into the **API key** field. The plugin never changes anything in Healthchecks.io, and a read-only key covers everything except the ping log (see [Known limitations](#known-limitations)). Use the read-write key instead if you want job run times and the ping log. You can switch key type later without losing checks or dashboards.
 5. Leave **Server URL** as `https://healthchecks.io`, unless you run your own Healthchecks instance.
 
 > ⚠️ The **Ping key** shown on the same settings page is used to *send* pings and does not work with the Management API. Use one of the **API keys**.
@@ -50,12 +50,10 @@ Each check is indexed with its slug, kind (simple, cron or OnCalendar), period o
 ## Known limitations
 
 - **The ping log needs a read-write key.** Healthchecks.io read-only keys can't read pings, so **Pings** tiles show an error with a read-only key. Everything else works with either key type.
-- **No links to checks with a read-only key.** Healthchecks.io leaves the check UUID out of read-only API responses, so the **Link** column and the link to each check in Healthchecks.io are empty.
 - **The ping log is capped.** Healthchecks.io returns only the newest 100 pings (free accounts) or 1,000 pings (paid accounts) per check. For frequently pinged checks, longer timeframes show only the most recent pings.
 - **Job run time needs start signals.** Duration is only recorded when a job sends a `/start` ping before its success or failure ping.
 - **Status history covers about three months.** Healthchecks.io keeps status changes for the current month and the two months before it, so **Status History** offers timeframes up to **This quarter**. Time before a check's earliest retained status change isn't shown.
 - **Paused periods appear as down.** Healthchecks.io records status changes only as up or not up, so a period when a check was paused shows as down in **Status History**.
 - **Rate limit.** Healthchecks.io allows 100 API requests per minute per project. **Status History** and **Pings** make one request per check, so keep those tiles scoped to a handful of checks rather than a whole large project.
 - **One project per data source.** API keys belong to a single project. Add a data source for each project.
-- **Changing key type re-creates checks.** A read-write key identifies checks by UUID and a read-only key by a different stable key. Switching between the two after setup re-imports every check as a new object, so dashboards scoped to specific checks need updating.
 - **Read-only.** The plugin never creates, changes, pauses or deletes anything in Healthchecks.io.

@@ -13,6 +13,7 @@
                     "value": "Check"
                 },
                 "properties": [
+                    "uuid",
                     "slug",
                     "status",
                     "kind",

@@ -4,13 +4,12 @@ const apiMsg = data && typeof data === "object" && data.error;
 const readOnlyMsg =
     "The ping log needs a Healthchecks.io read-write API key (read-only keys cannot read pings)";
 
-// Read-only keys identify checks by a 40-character `unique_key`. The ping log
-// route only accepts UUIDs, so those requests 404 rather than returning 401.
+// Only read-write keys expose a check's UUID, and the ping log route only
+// accepts UUIDs, so read-only requests 404 rather than returning 401.
 const object = context && context.objects && context.objects[0];
-const rawId = object && (Array.isArray(object.rawId) ? object.rawId[0] : object.rawId);
-const isReadOnlyId = typeof rawId === "string" && /^[0-9a-f]{40}$/i.test(rawId);
+const uuid = object && (Array.isArray(object.uuid) ? object.uuid[0] : object.uuid);
 
-if (isReadOnlyId || response.status === 401 || response.status === 403) {
+if (!uuid || response.status === 401 || response.status === 403) {
     result = readOnlyMsg + (apiMsg ? ": " + apiMsg : "");
 } else if (response.status === 404) {
     result = "Check not found in Healthchecks.io (it may have been deleted)";
