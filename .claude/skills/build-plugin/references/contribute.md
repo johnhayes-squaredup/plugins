@@ -143,13 +143,13 @@ Before anything leaves the machine, ask with `AskUserQuestion`: `Open the pull r
 ```bash
 git push -u <remote> <branch>
 gh pr create --repo squaredup/plugins --base main \
-    --head <owner>:<branch> \
+    --head <head> \
     --title "<title>" --body-file <body-file> [--draft]
 ```
 
-`<owner>` is `squaredup` when pushing directly, or the user's GitHub login when pushing to their fork.
+`<head>` is just `<branch>` when pushing directly to `squaredup/plugins`, or `<login>:<branch>` when pushing to the user's fork. `gh` doesn't accept an organisation before the colon, so `squaredup:<branch>` fails.
 
-**Without the GitHub CLI**, push with `git` as above, then give the user this link to open the PR in their browser (URL-encode the title):
+**Without the GitHub CLI**, push with `git` as above, then give the user this link to open the PR in their browser. `<owner>` is `squaredup` for a direct push, or the user's login for a fork (the browser accepts either). URL-encode the title:
 
 ```text
 https://github.com/squaredup/plugins/compare/main...<owner>:<branch>?expand=1&title=<title>
