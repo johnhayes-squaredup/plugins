@@ -31,10 +31,12 @@ Confirm each before touching git. Stop and tell the user what's missing if any f
 
     Never ask for, paste or store a GitHub token to work around a missing login.
 3. **A clone of `squaredup/plugins`** — run `git remote -v` in the working directory. If it isn't a clone of `squaredup/plugins` (the skill may have been installed with `npx skills add` into an unrelated folder), fork-and-clone into a fresh directory (`gh repo fork squaredup/plugins --clone`) and copy the finished `plugins/<PluginName>/v<N>/` folder into it.
-4. **New plugin or change?** — `git fetch origin main`, then `git ls-tree -d origin/main plugins/<PluginName>`. Absent on `main` → **new plugin**; present → **change to an existing plugin**. This decides the template (step 5) and the version rule:
+
+    From here on, **`<upstream>`** means the remote whose URL is `squaredup/plugins` itself — never a fork, which can be behind. In a plain clone it is `origin`; after `gh repo fork` it is `upstream` (the fork becomes `origin`). If no remote points at `squaredup/plugins`, add one: `git remote add upstream https://github.com/squaredup/plugins.git`. Re-check `git remote -v` whenever a step below changes the remotes.
+4. **New plugin or change?** — `git fetch <upstream> main`, then `git ls-tree -d <upstream>/main plugins/<PluginName>`. Absent on `main` → **new plugin**; present → **change to an existing plugin**. This decides the template (step 5) and the version rule:
     - New plugin: `metadata.json` stays at `<major>.0.0` matching its `v<major>` folder.
     - Change: `version` must be higher than on `main` — invoke `deploy-plugin` for the bump if Phase 9 didn't.
-5. **Push access** — `gh repo view squaredup/plugins --json viewerPermission`. `WRITE`, `MAINTAIN` or `ADMIN` → push a branch to `squaredup/plugins` directly. Anything else → push to the user's fork (`gh repo fork squaredup/plugins --remote`, which adds it as a remote) and open the PR from there.
+5. **Push access** — `gh repo view squaredup/plugins --json viewerPermission`. `WRITE`, `MAINTAIN` or `ADMIN` → push a branch to `<upstream>` directly. Anything else → push to the user's fork and open the PR from there. If the clone has no fork remote yet, run `gh repo fork --remote` (no repository argument — `gh` rejects `--remote` alongside one) from inside the clone: it creates the fork, renames the existing `origin` to `upstream` and adds the fork as `origin`.
 
 ### Without the GitHub CLI
 
@@ -42,7 +44,7 @@ Each `gh` step has a git-and-browser equivalent:
 
 | Step | Instead of `gh` |
 | --- | --- |
-| Clone (precondition 3) | The user forks at [github.com/squaredup/plugins/fork](https://github.com/squaredup/plugins/fork) (or skips forking if they have write access), then `git clone` that repository |
+| Clone (precondition 3) | The user forks at [github.com/squaredup/plugins/fork](https://github.com/squaredup/plugins/fork) (or skips forking if they have write access), then `git clone` that repository. A clone of the fork has no remote for `squaredup/plugins` — add `upstream` as precondition 3 describes |
 | Push access (precondition 5) | Push to `origin` in step 6. A `403` or `Permission denied` means no write access: ask the user to fork in the browser, then `git remote add fork https://github.com/<login>/plugins.git` and push there instead |
 | Open the PR (step 6) | Give the user a link to the compare page instead of running `gh pr create` — see step 6 |
 
@@ -74,7 +76,7 @@ The plugin was built and tested against the user's own tenant and their own acco
 
     A hit is a prompt to look, not a verdict — `ui.json` field names like `apiKey` and `{{apiKey}}` header templates are expected. Only a **value** is a leak.
 3. **Read every file.** Patterns miss names, internal tools and environment-specific content. Spawn **one general-purpose sub-agent**, told not to edit anything, to read every file in the plugin folder in full (dashboards are large — don't read them inline; and don't use an `Explore` agent, which skims excerpts rather than reading whole files) against the table above, including the known-values list from step 1, and return only findings as `file:line — category — the offending text — suggested generic replacement`. Images (`icon.*`, `screenshots/`) are part of this: it should view them, not skip them.
-4. **Check history, not just the final files.** Anything committed on the branch is published with it, even if a later commit removed it. If the plugin has commits of its own, run `git log -p origin/main..HEAD -- plugins/<PluginName>` through the same sweep. If a secret appears anywhere in history, don't push that branch — build a fresh branch from `origin/main` with only the clean files (step 4), and tell the user to **rotate the credential** regardless, since it may already exist elsewhere.
+4. **Check history, not just the final files.** Anything committed on the branch is published with it, even if a later commit removed it. If the plugin has commits of its own, run `git log -p <upstream>/main..HEAD -- plugins/<PluginName>` through the same sweep. If a secret appears anywhere in history, don't push that branch — build a fresh branch from `<upstream>/main` with only the clean files (step 4), and tell the user to **rotate the credential** regardless, since it may already exist elsewhere.
 5. **Check what else would ship.** The PR must contain the plugin folder plus, optionally, a `.github/CODEOWNERS` line. Personal configuration (`.claude/settings.json`, `*.local.json`, `.env`, scratch test output) must not be staged.
 
 ### Resolve with the user
@@ -85,14 +87,17 @@ After fixing, **re-run `squaredup validate --json`** and redeploy with `deploy-p
 
 ## 4. Branch and commit
 
-1. **Branch from current `main`**: `git fetch origin main && git switch -c plugins/<PluginName> origin/main`, then bring in the plugin folder (it may already be on a working branch — copy or check out just `plugins/<PluginName>/` from it rather than merging unrelated history).
+1. **Branch from current `main`**: `git fetch <upstream> main && git switch -c plugins/<PluginName> <upstream>/main`, then bring in the plugin folder (it may already be on a working branch — copy or check out just `plugins/<PluginName>/` from it rather than merging unrelated history).
 2. **CODEOWNERS** — for a new plugin, the README asks contributors to add themselves to [`.github/CODEOWNERS`](../../../../.github/CODEOWNERS) so they review future changes. Ask the user for their GitHub handle (it may differ from `author.name` in `metadata.json`) and add a line in the existing style: `plugins/<PluginName>/ @handle`. Skip it if they decline.
 3. **Stage explicitly** — `git add plugins/<PluginName> .github/CODEOWNERS`, never `git add -A`. Then confirm the scope the same way CI does:
 
     ```bash
-    git diff --name-only --cached origin/main | grep -oE 'plugins/[^/]+' | sort -u   # must print exactly one plugin
-    git diff --name-only --cached origin/main                                         # nothing outside the plugin folder and CODEOWNERS
+    git diff --name-only --cached <upstream>/main | grep -oE 'plugins/[^/]+' | sort -u   # must print exactly one plugin
+    git diff --name-only --cached <upstream>/main                                         # nothing outside the plugin folder and CODEOWNERS
+    git diff --cached <upstream>/main -- .github/CODEOWNERS                               # only the one owner line added
     ```
+
+    If the `CODEOWNERS` diff shows anything else, the working copy had unrelated edits. Unstage it (`git restore --staged .github/CODEOWNERS`), show the user those edits, and with their agreement set them aside (`git stash push -- .github/CODEOWNERS`) before re-adding just the owner line and staging again.
 
 4. **Commit** with a message in the repository's style — `Add <displayName> plugin` for a new plugin, or a short imperative summary of the change for an existing one.
 
