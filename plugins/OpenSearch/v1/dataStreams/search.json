@@ -28,7 +28,8 @@
           "allowCustomValues": true,
           "data": {
             "source": "dataStream",
-            "dataStreamName": "indices"
+            "dataStreamName": "indices",
+            "dataSourceConfig": {}
           }
         },
         {
