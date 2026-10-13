@@ -83,25 +83,10 @@ Show every finding to the user — grouped by file, with your suggested replacem
 
 After fixing, **re-run `squaredup validate --json`** and redeploy with `deploy-plugin` if anything other than docs changed, so the PR ships what was tested. Re-run the sweep until it comes back clean, then tell the user plainly that it did.
 
-## 4. Screenshots
-
-The *Add a new plugin* template asks for screenshots of the plugin's configuration and its default dashboards. They make review much faster, so **encourage the user to add them** — but they're also the easiest place to leak the very data step 3 just removed, because they show real tenant data.
-
-Ask the user whether they'd like to include screenshots and, if so, give them this checklist before they take or share any:
-
-- Use the default dashboards on a data source whose objects are safe to show, or crop/blur object names, hostnames, IPs, account IDs and people's names.
-- Crop out the browser address bar, the SquaredUp organisation name and workspace names, and the user's avatar or email in the navigation.
-- On the configuration screen, make sure credential fields are empty or masked — never a visible API key, even a revoked one.
-- Check every tile, including table rows and legends, not just titles.
-
-If the user gives you the image files, **view each one** with `Read` and report anything sensitive you can see before they're used — don't assume they've been cropped.
-
-Screenshots go in the **PR description**, not the repository: `gh` can't upload images, so the user drags them into the PR's description in the GitHub web editor after it is created. Leave the template's screenshot headings in place with a short note so they know where they belong. Only add a `screenshots/` folder to the plugin if the user specifically wants images in-product.
-
-## 5. Branch and commit
+## 4. Branch and commit
 
 1. **Branch from current `main`**: `git fetch origin main && git switch -c plugins/<PluginName> origin/main`, then bring in the plugin folder (it may already be on a working branch — copy or check out just `plugins/<PluginName>/` from it rather than merging unrelated history).
-2. **CODEOWNERS** — for a new plugin, the README asks contributors to add themselves to [`.github/CODEOWNERS`](../../../../.github/CODEOWNERS) so they review future changes. Ask the user for their GitHub handle (it may differ from `author.name` in `metadata.json`) and add a line in the existing style: `plugins/<PluginName>/* @handle`. Skip it if they decline.
+2. **CODEOWNERS** — for a new plugin, the README asks contributors to add themselves to [`.github/CODEOWNERS`](../../../../.github/CODEOWNERS) so they review future changes. Ask the user for their GitHub handle (it may differ from `author.name` in `metadata.json`) and add a line in the existing style: `plugins/<PluginName>/ @handle`. Skip it if they decline.
 3. **Stage explicitly** — `git add plugins/<PluginName> .github/CODEOWNERS`, never `git add -A`. Then confirm the scope the same way CI does:
 
     ```bash
@@ -111,7 +96,7 @@ Screenshots go in the **PR description**, not the repository: `gh` can't upload 
 
 4. **Commit** with a message in the repository's style — `Add <displayName> plugin` for a new plugin, or a short imperative summary of the change for an existing one.
 
-## 6. Write the PR description from the template
+## 5. Write the PR description from the template
 
 The repository requires the **matching template**, and PRs raised without it may be closed. Read the template file at run time — don't write the body from memory:
 
@@ -142,15 +127,9 @@ Tick the box **only** on that explicit `I agree`. Any other answer (including "O
 
 **Title**: `Add <displayName> plugin` for a new plugin, matching existing PRs; a short imperative summary for a change.
 
-## 7. Confirm, push and open the PR
+## 6. Confirm, push and open the PR
 
-Before anything leaves the machine, show the user:
-
-- the list of files that will be pushed (`git diff --name-only origin/main...HEAD`),
-- the PR title and the full description,
-- where it will be pushed (`squaredup/plugins` or their fork),
-
-and ask with `AskUserQuestion`: `Open the pull request`, `Open it as a draft`, or `Make changes first`. Only on approval:
+Before anything leaves the machine, ask with `AskUserQuestion`: `Open the pull request`, `Open it as a draft`, or `Make changes first`. Only on approval:
 
 ```bash
 git push -u <remote> plugins/<PluginName>
@@ -169,13 +148,9 @@ https://github.com/squaredup/plugins/compare/main...<owner>:plugins/<PluginName>
 
 Print the PR description for them to paste into the description box — don't put it in the URL, which is too long for a full template — and tell them to use the arrow next to **Create pull request** if they wanted a draft. Ask them to share the PR URL once it's created.
 
-## 8. Hand over — what happens next
+## 7. Hand over — what happens next
 
-Give the user the PR URL and remind them of anything still theirs to do:
-
-- **Add screenshots now** if they chose to — edit the PR description on GitHub and drag the vetted images under the screenshot headings.
-
-Then show them what happens next, in this order:
+Give the user the PR URL and then show them what happens next, in this order:
 
 1. **Automated checks** — CI checks the PR changes a single plugin with a valid version, validates it, and deploys it to a shared SquaredUp organisation for testing. The results appear as a comment on the PR.
 2. **CodeRabbit review** — CodeRabbit automatically reviews the PR and leaves feedback as comments. Address each one by pushing a fix to the same branch or replying to explain why not — they can ask you for help with either.
