@@ -31,7 +31,7 @@ Confirm each before touching git. Stop and tell the user what's missing if any f
 
     Never ask for, paste or store a GitHub token to work around a missing login.
 3. **A clone of `squaredup/plugins`** — run `git remote -v` in the working directory. If it isn't a clone of `squaredup/plugins` (the skill may have been installed with `npx skills add` into an unrelated folder), fork-and-clone into a fresh directory (`gh repo fork squaredup/plugins --clone`) and copy the finished `plugins/<PluginName>/v<N>/` folder into it.
-4. **New plugin or change?** — `git fetch origin main`, then `git ls-tree -d origin/main plugins/<PluginName>`. Absent on `main` → **new plugin**; present → **change to an existing plugin**. This decides the template (step 6) and the version rule:
+4. **New plugin or change?** — `git fetch origin main`, then `git ls-tree -d origin/main plugins/<PluginName>`. Absent on `main` → **new plugin**; present → **change to an existing plugin**. This decides the template (step 5) and the version rule:
     - New plugin: `metadata.json` stays at `<major>.0.0` matching its `v<major>` folder.
     - Change: `version` must be higher than on `main` — invoke `deploy-plugin` for the bump if Phase 9 didn't.
 5. **Push access** — `gh repo view squaredup/plugins --json viewerPermission`. `WRITE`, `MAINTAIN` or `ADMIN` → push a branch to `squaredup/plugins` directly. Anything else → push to the user's fork (`gh repo fork squaredup/plugins --remote`, which adds it as a remote) and open the PR from there.
@@ -43,8 +43,8 @@ Each `gh` step has a git-and-browser equivalent:
 | Step | Instead of `gh` |
 | --- | --- |
 | Clone (precondition 3) | The user forks at [github.com/squaredup/plugins/fork](https://github.com/squaredup/plugins/fork) (or skips forking if they have write access), then `git clone` that repository |
-| Push access (precondition 5) | Push to `origin` in step 7. A `403` or `Permission denied` means no write access: ask the user to fork in the browser, then `git remote add fork https://github.com/<login>/plugins.git` and push there instead |
-| Open the PR (step 7) | Give the user a link to the compare page instead of running `gh pr create` — see step 7 |
+| Push access (precondition 5) | Push to `origin` in step 6. A `403` or `Permission denied` means no write access: ask the user to fork in the browser, then `git remote add fork https://github.com/<login>/plugins.git` and push there instead |
+| Open the PR (step 6) | Give the user a link to the compare page instead of running `gh pr create` — see step 6 |
 
 If `git push` fails on authentication (not permissions), stop: the user needs working git credentials for GitHub, and installing `gh` and running `gh auth login` is the simplest way to get them.
 
@@ -74,7 +74,7 @@ The plugin was built and tested against the user's own tenant and their own acco
 
     A hit is a prompt to look, not a verdict — `ui.json` field names like `apiKey` and `{{apiKey}}` header templates are expected. Only a **value** is a leak.
 3. **Read every file.** Patterns miss names, internal tools and environment-specific content. Spawn **one general-purpose sub-agent**, told not to edit anything, to read every file in the plugin folder in full (dashboards are large — don't read them inline; and don't use an `Explore` agent, which skims excerpts rather than reading whole files) against the table above, including the known-values list from step 1, and return only findings as `file:line — category — the offending text — suggested generic replacement`. Images (`icon.*`, `screenshots/`) are part of this: it should view them, not skip them.
-4. **Check history, not just the final files.** Anything committed on the branch is published with it, even if a later commit removed it. If the plugin has commits of its own, run `git log -p origin/main..HEAD -- plugins/<PluginName>` through the same sweep. If a secret appears anywhere in history, don't push that branch — build a fresh branch from `origin/main` with only the clean files (step 5), and tell the user to **rotate the credential** regardless, since it may already exist elsewhere.
+4. **Check history, not just the final files.** Anything committed on the branch is published with it, even if a later commit removed it. If the plugin has commits of its own, run `git log -p origin/main..HEAD -- plugins/<PluginName>` through the same sweep. If a secret appears anywhere in history, don't push that branch — build a fresh branch from `origin/main` with only the clean files (step 4), and tell the user to **rotate the credential** regardless, since it may already exist elsewhere.
 5. **Check what else would ship.** The PR must contain the plugin folder plus, optionally, a `.github/CODEOWNERS` line. Personal configuration (`.claude/settings.json`, `*.local.json`, `.env`, scratch test output) must not be staged.
 
 ### Resolve with the user
@@ -108,7 +108,7 @@ Keep every heading and checklist in the template's order and fill each section f
 | Template section | Fill it from |
 | --- | --- |
 | Plugin overview / Summary | `metadata.json` (`displayName`, `description`), the Phase 2 plan, and the auth mechanism from `ui.json` |
-| Screenshots | Leave the headings with a note for the user to drag images in (step 4) |
+| Screenshots | Leave the headings in place with a note for the user to drag images in on GitHub — `gh` can't upload them |
 | Test plan / Testing | What was **actually** run against a live, authenticated deployment: the Checkpoint A auth probe, the Checkpoint B import (object types and counts), each data stream's PASS report from Phases 5–6, and the default dashboards rendering. The template says "Validation is not testing" — don't offer `squaredup validate` as the test plan |
 | Known limitations | The finalised **Known limitations** section of `docs/README.md` (Phase 9) |
 | Type of change / Breaking changes / Documentation | The real diff. A removed or renamed data stream, or significantly changed UI parameters, is breaking and needs a new major version folder — see [REVIEW.md](../../../../REVIEW.md#versioning) |
