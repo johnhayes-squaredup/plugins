@@ -24,7 +24,7 @@
             "pageSize": {
                 "realm": "queryArg",
                 "path": "limit",
-                "value": "750"
+                "value": "500"
             },
             "in": {
                 "realm": "payload",
