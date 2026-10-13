@@ -46,7 +46,7 @@ The out-of-the-box dashboards include an account-wide **Overview**, a **Host Gro
 | **CrowdStrike Host Group** | `GET /devices/combined/host-groups/v1` | A Falcon Host Group (used here to represent an agency). |
 | **CrowdStrike Host** | `GET /devices/combined/devices/v1` | An enrolled endpoint (workstation, server, etc.). |
 
-**Relationships:** each Host's `group_ids` property references the Host Group(s) it belongs to (a host can belong to more than one group).
+**Relationships:** each Host's `groups` property references the Host Group(s) it belongs to (a host can belong to more than one group).
 
 ## Known limitations
 

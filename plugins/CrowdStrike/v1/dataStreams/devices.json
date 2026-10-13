@@ -9,10 +9,10 @@
         "endpointPath": "/devices/combined/devices/v1",
         "getArgs": [
             { "key": "sort", "value": "device_id.asc" },
-            { "key": "fields", "value": "device_id,hostname,platform_name,os_version,product_type_desc,agent_version,status,reduced_functionality_mode,first_seen,last_seen,local_ip,external_ip,mac_address,machine_domain,site_name,serial_number,system_manufacturer,system_product_name,group_ids,groups,tags,device_policies" },
+            { "key": "fields", "value": "device_id,hostname,platform_name,os_version,product_type_desc,agent_version,status,reduced_functionality_mode,first_seen,last_seen,local_ip,external_ip,mac_address,machine_domain,site_name,serial_number,system_manufacturer,system_product_name,groups,tags,device_policies" },
             {
                 "key": "filter",
-                "value": "{{ (typeof scope === 'undefined' || !scope ? [] : [ [\"device_id\", scope.filter(o => o.type !== 'CrowdStrike Host Group')], [\"group_ids\", scope.filter(o => o.type === 'CrowdStrike Host Group')] ].filter(p => p[1].length).map(p => p[0] + \":[\" + p[1].map(o => \"'\" + [].concat(o.rawId)[0] + \"'\").join(\",\") + \"]\")).join(\"+\") || null }}"
+                "value": "{{ (typeof scope === 'undefined' || !scope ? [] : [ [\"device_id\", scope.filter(o => o.type !== 'CrowdStrike Host Group')], [\"groups\", scope.filter(o => o.type === 'CrowdStrike Host Group')] ].filter(p => p[1].length).map(p => p[0] + \":[\" + p[1].map(o => \"'\" + [].concat(o.rawId)[0] + \"'\").join(\",\") + \"]\")).join(\"+\") || null }}"
             }
         ],
         "paging": {
@@ -67,7 +67,7 @@
         { "name": "serial_number", "displayName": "Serial Number", "shape": "string" },
         { "name": "system_manufacturer", "displayName": "Manufacturer", "shape": "string" },
         { "name": "system_product_name", "displayName": "Model", "shape": "string" },
-        { "name": "group_ids", "displayName": "Host Group IDs", "shape": "string", "visible": false },
+        { "name": "groups", "displayName": "Host Group IDs", "shape": "string", "visible": false },
         { "name": "tags", "displayName": "Tags", "shape": "string" },
         {
             "name": "device_policies.prevention.applied",

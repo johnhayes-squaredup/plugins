@@ -787,7 +787,7 @@
                                 ],
                                 "hiddenColumns": [
                                     "device_id",
-                                    "group_ids",
+                                    "groups",
                                     "mac_address",
                                     "external_ip",
                                     "machine_domain",
