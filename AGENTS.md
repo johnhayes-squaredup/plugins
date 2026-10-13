@@ -61,7 +61,6 @@ What each file is, in rough order of how universal it is:
 | `icon.svg` / `icon.png` | The plugin logo. |
 | `configValidation.json` | The check run when a user saves their configuration, backed by a data stream. |
 | `custom_types.json` | Display names and icons for the object types the plugin imports. |
-| `cspell.json` | Per-plugin spellcheck word list, for product names the root list doesn't cover. |
 | `correlationRules/`, `preRequest.js`, `screenshots/` | Rare extras, used by one or two plugins each. |
 
 ## Tooling
