@@ -14,7 +14,7 @@
         },
         {
             "name": "devices",
-            "dataStream": { "name": "devices", "config": {} },
+            "dataStream": { "name": "hostsIndex", "config": {} },
             "timeframe": "none",
             "objectMapping": {
                 "id": "device_id",

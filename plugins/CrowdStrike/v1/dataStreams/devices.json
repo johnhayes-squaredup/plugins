@@ -17,7 +17,7 @@
         ],
         "paging": {
             "mode": "token",
-            "pageSize": { "realm": "queryArg", "path": "limit", "value": "1000" },
+            "pageSize": { "realm": "queryArg", "path": "limit", "value": "500" },
             "in": { "realm": "payload", "path": "meta.pagination.next" },
             "out": { "realm": "queryArg", "path": "offset" }
         },
