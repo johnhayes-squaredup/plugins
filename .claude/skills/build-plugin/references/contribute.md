@@ -87,7 +87,11 @@ After fixing, **re-run `squaredup validate --json`** and redeploy with `deploy-p
 
 ## 4. Branch and commit
 
-1. **Branch from current `main`**: `git fetch <upstream> main && git switch -c plugins/<PluginName> <upstream>/main`, then bring in the plugin folder (it may already be on a working branch — copy or check out just `plugins/<PluginName>/` from it rather than merging unrelated history).
+1. **Branch from current `main`** — the plugin may sit on a working branch, with uncommitted changes, so bring it across by copying only the folder, never by merging unrelated history:
+    1. **Keep a copy** of the whole `plugins/<PluginName>/` folder in your scratch directory.
+    2. **Clear the way** — if `git status --porcelain -- plugins/<PluginName>` prints anything, `git stash push --include-untracked -- plugins/<PluginName>` so the switch can't be refused over those paths. Tell the user the stash holds their working state.
+    3. **Pick the branch name** — `plugins/<PluginName>`, unless `git rev-parse --verify --quiet refs/heads/plugins/<PluginName>` shows it already exists; then add a suffix such as `-contribution`. `<branch>` below means the name chosen.
+    4. **Branch and restore** — `git fetch <upstream> main && git switch -c <branch> <upstream>/main`, then replace the folder with the copy: `rm -rf plugins/<PluginName> && cp -R <scratch>/<PluginName> plugins/`.
 2. **CODEOWNERS** — for a new plugin, the README asks contributors to add themselves to [`.github/CODEOWNERS`](../../../../.github/CODEOWNERS) so they review future changes. Ask the user for their GitHub handle (it may differ from `author.name` in `metadata.json`) and add a line in the existing style: `plugins/<PluginName>/ @handle`. Skip it if they decline.
 3. **Stage explicitly** — `git add plugins/<PluginName> .github/CODEOWNERS`, never `git add -A`. Then confirm the scope the same way CI does:
 
@@ -137,9 +141,9 @@ Tick the box **only** on that explicit `I agree`. Any other answer (including "O
 Before anything leaves the machine, ask with `AskUserQuestion`: `Open the pull request`, `Open it as a draft`, or `Make changes first`. Only on approval:
 
 ```bash
-git push -u <remote> plugins/<PluginName>
+git push -u <remote> <branch>
 gh pr create --repo squaredup/plugins --base main \
-    --head <owner>:plugins/<PluginName> \
+    --head <owner>:<branch> \
     --title "<title>" --body-file <body-file> [--draft]
 ```
 
@@ -148,7 +152,7 @@ gh pr create --repo squaredup/plugins --base main \
 **Without the GitHub CLI**, push with `git` as above, then give the user this link to open the PR in their browser (URL-encode the title):
 
 ```text
-https://github.com/squaredup/plugins/compare/main...<owner>:plugins/<PluginName>?expand=1&title=<title>
+https://github.com/squaredup/plugins/compare/main...<owner>:<branch>?expand=1&title=<title>
 ```
 
 Print the PR description for them to paste into the description box — don't put it in the URL, which is too long for a full template — and tell them to use the arrow next to **Create pull request** if they wanted a draft. Ask them to share the PR URL once it's created.
