@@ -144,8 +144,10 @@ Before anything leaves the machine, ask with `AskUserQuestion`: `Open the pull r
 git push -u <remote> <branch>
 gh pr create --repo squaredup/plugins --base main \
     --head <head> \
-    --title "<title>" --body-file <body-file> [--draft]
+    --title "<title>" --body-file <body-file>
 ```
+
+Add `--draft` only if the user chose `Open it as a draft`.
 
 `<head>` is just `<branch>` when pushing directly to `squaredup/plugins`, or `<login>:<branch>` when pushing to the user's fork. `gh` doesn't accept an organisation before the colon, so `squaredup:<branch>` fails.
 
