@@ -12,7 +12,7 @@
             { "key": "fields", "value": "device_id,hostname,platform_name,os_version,product_type_desc,agent_version,status,reduced_functionality_mode,first_seen,last_seen,local_ip,external_ip,mac_address,machine_domain,site_name,serial_number,system_manufacturer,system_product_name,groups,tags,device_policies" },
             {
                 "key": "filter",
-                "value": "{{ (typeof scope === 'undefined' || !scope ? [] : [ [\"device_id\", scope.filter(o => o.type !== 'CrowdStrike Host Group')], [\"groups\", scope.filter(o => o.type === 'CrowdStrike Host Group')] ].filter(p => p[1].length).map(p => p[0] + \":[\" + p[1].map(o => \"'\" + [].concat(o.rawId)[0] + \"'\").join(\",\") + \"]\")).join(\"+\") || null }}"
+                "value": "{{ (typeof scope === 'undefined' || !scope ? [] : [ [\"device_id\", scope.filter(o => JSON.stringify(o).indexOf('Host Group') < 0)], [\"groups\", scope.filter(o => JSON.stringify(o).indexOf('Host Group') >= 0)] ].filter(p => p[1].length).map(p => p[0] + \":[\" + p[1].map(o => \"'\" + String([].concat(o.rawId !== undefined ? o.rawId : (o.sourceId || o.id))[0]).split('~').pop() + \"'\").join(\",\") + \"]\")).join(\"+\") || null }}"
             }
         ],
         "paging": {
