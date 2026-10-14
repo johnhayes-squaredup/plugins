@@ -169,7 +169,7 @@
             "name": "daysOpen",
             "displayName": "Days Open",
             "computed": true,
-            "valueExpression": "{{ $['created_timestamp'] ? Math.floor((Date.now() - new Date($['created_timestamp'])) / 86400000) : null }}",
+            "valueExpression": "{{ $['created_timestamp'] ? Math.max(0, Math.floor((($['status'] === 'closed' && $['closed_timestamp'] ? new Date($['closed_timestamp']) : Date.now()) - new Date($['created_timestamp'])) / 86400000)) : null }}",
             "shape": "number"
         },
         {
