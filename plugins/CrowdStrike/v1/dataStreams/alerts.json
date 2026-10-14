@@ -211,7 +211,7 @@
             "name": "responseLatencySeconds",
             "displayName": "Response Latency",
             "computed": true,
-            "valueExpression": "{{ ($['status'] === 'closed' && $['updated_timestamp'] && $['created_timestamp']) ? Math.max(0, (new Date($['updated_timestamp']) - new Date($['created_timestamp'])) / 1000) : null }}",
+            "valueExpression": "{{ ($['seconds_to_triaged'] !== undefined && $['seconds_to_triaged'] !== null && $['seconds_to_triaged'] !== '' && !isNaN(Number($['seconds_to_triaged']))) ? Math.max(0, Number($['seconds_to_triaged'])) : null }}",
             "shape": [
                 "seconds",
                 {
