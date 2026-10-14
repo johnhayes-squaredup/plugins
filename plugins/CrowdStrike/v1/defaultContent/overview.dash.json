@@ -20,17 +20,24 @@
                     "_type": "tile/data-stream",
                     "title": "Total Hosts",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
                     "dataStream": {
-                        "id": "{{dataStreams.[devices]}}",
-                        "name": "devices",
+                        "id": "{{dataStreams.[hostCount]}}",
+                        "name": "hostCount",
                         "pluginConfigId": "{{configId}}",
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                        "dataSourceConfig": {}
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -47,20 +54,40 @@
                     "_type": "tile/data-stream",
                     "title": "Active Alerts",
                     "description": "Alerts not yet closed, created within the dashboard timeframe",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
                         "pluginConfigId": "{{configId}}",
                         "filter": {
                             "multiOperation": "and",
-                            "filters": [{ "column": "status", "operation": "notequals", "value": "closed" }]
+                            "filters": [
+                                {
+                                    "column": "status",
+                                    "operation": "notequals",
+                                    "value": "closed"
+                                }
+                            ]
                         },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                        "group": {
+                            "by": [],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "count",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -76,25 +103,33 @@
                 "config": {
                     "_type": "tile/data-stream",
                     "title": "Open Critical/High Vulnerabilities",
-                    "description": "Open vulnerabilities with a CVSS base score of 7.0 or above",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "description": "Open vulnerabilities with Critical or High severity",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
                     "dataStream": {
-                        "id": "{{dataStreams.[vulnerabilities]}}",
-                        "name": "vulnerabilities",
+                        "id": "{{dataStreams.[vulnerabilityCount]}}",
+                        "name": "vulnerabilityCount",
                         "pluginConfigId": "{{configId}}",
-                        "filter": {
-                            "multiOperation": "and",
-                            "filters": [
-                                { "column": "status", "operation": "equals", "value": "open" },
-                                { "column": "cve.base_score", "operation": "greaterthan", "value": "6.9" }
+                        "dataSourceConfig": {
+                            "severity": [
+                                "CRITICAL",
+                                "HIGH"
+                            ],
+                            "status": [
+                                "open"
                             ]
-                        },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -111,57 +146,26 @@
                     "_type": "tile/data-stream",
                     "title": "Contained Hosts",
                     "description": "Hosts currently network-contained",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
                     "dataStream": {
-                        "id": "{{dataStreams.[devices]}}",
-                        "name": "devices",
+                        "id": "{{dataStreams.[hostCount]}}",
+                        "name": "hostCount",
                         "pluginConfigId": "{{configId}}",
-                        "filter": {
-                            "multiOperation": "and",
-                            "filters": [{ "column": "status", "operation": "equals", "value": "contained" }]
-                        },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
-                    },
-                    "visualisation": {
-                        "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
-                    }
-                }
-            },
-            {
-                "i": "497a187f-7f06-4395-8ff1-2ba3d2a9a2f6",
-                "x": 0,
-                "y": 2,
-                "w": 2,
-                "h": 3,
-                "moved": false,
-                "static": false,
-                "z": 0,
-                "config": {
-                    "_type": "tile/data-stream",
-                    "title": "Hosts by Platform",
-                    "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "timeframe": "none",
-                    "dataStream": {
-                        "id": "{{dataStreams.[devices]}}",
-                        "name": "devices",
-                        "pluginConfigId": "{{configId}}",
-                        "group": {
-                            "by": [["platform_name", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                        "dataSourceConfig": {
+                            "hostStatus": [
+                                "contained"
+                            ]
                         }
                     },
                     "visualisation": {
-                        "type": "data-stream-donut-chart",
+                        "type": "data-stream-scalar",
                         "config": {
-                            "data-stream-donut-chart": {
-                                "valueColumn": "count",
-                                "labelColumn": "platform_name_uniqueValues",
-                                "showValuesAsPercentage": true,
-                                "legendPosition": "auto",
-                                "legendMode": "table"
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
                             }
                         }
                     }
@@ -169,8 +173,8 @@
             },
             {
                 "i": "d34b48d7-a07a-434a-a86c-e94cf26beaa6",
-                "x": 2,
-                "y": 2,
+                "x": 0,
+                "y": 6,
                 "w": 2,
                 "h": 3,
                 "moved": false,
@@ -180,14 +184,25 @@
                     "_type": "tile/data-stream",
                     "title": "Alerts by Severity",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
                         "pluginConfigId": "{{configId}}",
                         "group": {
-                            "by": [["severity_name", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                            "by": [
+                                [
+                                    "severity_name",
+                                    "uniqueValues"
+                                ]
+                            ],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
                         }
                     },
                     "visualisation": {
@@ -206,8 +221,8 @@
             },
             {
                 "i": "bd32d0d4-022a-4c24-8683-f29c2d473cc3",
-                "x": 0,
-                "y": 5,
+                "x": 2,
+                "y": 6,
                 "w": 2,
                 "h": 3,
                 "moved": false,
@@ -217,23 +232,43 @@
                     "_type": "tile/data-stream",
                     "title": "Alerts by Status",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
                         "pluginConfigId": "{{configId}}",
                         "group": {
-                            "by": [["status", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                            "by": [
+                                [
+                                    "status",
+                                    "uniqueValues"
+                                ]
+                            ],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
                         },
-                        "sort": { "by": [["count", "desc"]] }
+                        "sort": {
+                            "by": [
+                                [
+                                    "count",
+                                    "desc"
+                                ]
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-bar-chart",
                         "config": {
                             "data-stream-bar-chart": {
                                 "xAxisData": "status_uniqueValues",
-                                "yAxisData": ["count"],
+                                "yAxisData": [
+                                    "count"
+                                ],
                                 "xAxisGroup": "none",
                                 "xAxisLabel": "",
                                 "yAxisLabel": "Alerts",
@@ -247,104 +282,9 @@
                                 "showTotals": false,
                                 "showValue": true,
                                 "grouping": false,
-                                "range": { "type": "auto" }
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "i": "8cb63cf7-a111-438b-b114-bb3a6389b025",
-                "x": 2,
-                "y": 5,
-                "w": 2,
-                "h": 3,
-                "moved": false,
-                "static": false,
-                "z": 0,
-                "config": {
-                    "_type": "tile/data-stream",
-                    "title": "Vulnerabilities by Severity",
-                    "description": "Open vulnerabilities only",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "timeframe": "none",
-                    "dataStream": {
-                        "id": "{{dataStreams.[vulnerabilities]}}",
-                        "name": "vulnerabilities",
-                        "pluginConfigId": "{{configId}}",
-                        "filter": {
-                            "multiOperation": "and",
-                            "filters": [{ "column": "status", "operation": "equals", "value": "open" }]
-                        },
-                        "group": {
-                            "by": [["cve.severity", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
-                        }
-                    },
-                    "visualisation": {
-                        "type": "data-stream-donut-chart",
-                        "config": {
-                            "data-stream-donut-chart": {
-                                "valueColumn": "count",
-                                "labelColumn": "cve.severity_uniqueValues",
-                                "showValuesAsPercentage": true,
-                                "legendPosition": "auto",
-                                "legendMode": "table"
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "i": "7f0edf44-3986-4894-9225-80d025b6ec45",
-                "x": 0,
-                "y": 8,
-                "w": 2,
-                "h": 4,
-                "moved": false,
-                "static": false,
-                "z": 0,
-                "config": {
-                    "_type": "tile/data-stream",
-                    "title": "Top Vulnerabilities",
-                    "description": "Open vulnerabilities with the highest CVSS score, account-wide",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "timeframe": "none",
-                    "dataStream": {
-                        "id": "{{dataStreams.[vulnerabilities]}}",
-                        "name": "vulnerabilities",
-                        "pluginConfigId": "{{configId}}",
-                        "filter": {
-                            "multiOperation": "and",
-                            "filters": [{ "column": "status", "operation": "equals", "value": "open" }]
-                        },
-                        "sort": { "by": [["cve.base_score", "desc"]], "top": 10 }
-                    },
-                    "visualisation": {
-                        "type": "data-stream-table",
-                        "config": {
-                            "data-stream-table": {
-                                "transpose": false,
-                                "columnOrder": [
-                                    "cve.id",
-                                    "cve.severity",
-                                    "cve.base_score",
-                                    "host_info.hostname",
-                                    "host_info.platform",
-                                    "cve.exploit_status",
-                                    "status",
-                                    "created_timestamp"
-                                ],
-                                "hiddenColumns": [
-                                    "id",
-                                    "aid",
-                                    "host_info.local_ip",
-                                    "app.product_name_version",
-                                    "cve.published_date",
-                                    "updated_timestamp",
-                                    "closed_timestamp",
-                                    "daysOpen"
-                                ]
+                                "range": {
+                                    "type": "auto"
+                                }
                             }
                         }
                     }
@@ -352,24 +292,25 @@
             },
             {
                 "i": "fc1918d4-3d62-4fe9-aa54-e206e12b1130",
-                "x": 2,
-                "y": 8,
-                "w": 2,
+                "x": 0,
+                "y": 9,
+                "w": 4,
                 "h": 4,
                 "moved": false,
                 "static": false,
                 "z": 0,
                 "config": {
                     "_type": "tile/data-stream",
-                    "title": "Device Inventory",
-                    "description": "Most recently seen hosts, account-wide",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "title": "Recently Seen Hosts",
+                    "description": "The 100 most recently seen hosts",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
                     "dataStream": {
-                        "id": "{{dataStreams.[devices]}}",
-                        "name": "devices",
-                        "pluginConfigId": "{{configId}}",
-                        "sort": { "by": [["last_seen", "desc"]], "top": 20 }
+                        "id": "{{dataStreams.[recentHosts]}}",
+                        "name": "recentHosts",
+                        "pluginConfigId": "{{configId}}"
                     },
                     "visualisation": {
                         "type": "data-stream-table",
@@ -409,7 +350,7 @@
             {
                 "i": "34f983b0-6cc3-4091-8e04-1870ade28cda",
                 "x": 0,
-                "y": 12,
+                "y": 13,
                 "w": 4,
                 "h": 4,
                 "moved": false,
@@ -419,7 +360,9 @@
                     "_type": "tile/data-stream",
                     "title": "Sensor Usage",
                     "description": "Weekly average of unique sensors seen reporting",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "last30days",
                     "dataStream": {
                         "id": "{{dataStreams.[sensorUsage]}}",
@@ -428,7 +371,283 @@
                     },
                     "visualisation": {
                         "type": "data-stream-table",
-                        "config": { "data-stream-table": { "transpose": false } }
+                        "config": {
+                            "data-stream-table": {
+                                "transpose": false
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "i": "05e64ee9-4701-4f45-8096-115643dee6f1",
+                "x": 0,
+                "y": 2,
+                "w": 1,
+                "h": 2,
+                "moved": false,
+                "static": false,
+                "z": 0,
+                "config": {
+                    "_type": "tile/data-stream",
+                    "title": "Windows Hosts",
+                    "description": "",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "timeframe": "none",
+                    "dataStream": {
+                        "id": "{{dataStreams.[hostCount]}}",
+                        "name": "hostCount",
+                        "pluginConfigId": "{{configId}}",
+                        "dataSourceConfig": {
+                            "platform": "Windows"
+                        }
+                    },
+                    "visualisation": {
+                        "type": "data-stream-scalar",
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "i": "094b40d1-c2dc-4324-b9bb-12404a56be1d",
+                "x": 1,
+                "y": 2,
+                "w": 1,
+                "h": 2,
+                "moved": false,
+                "static": false,
+                "z": 0,
+                "config": {
+                    "_type": "tile/data-stream",
+                    "title": "Linux Hosts",
+                    "description": "",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "timeframe": "none",
+                    "dataStream": {
+                        "id": "{{dataStreams.[hostCount]}}",
+                        "name": "hostCount",
+                        "pluginConfigId": "{{configId}}",
+                        "dataSourceConfig": {
+                            "platform": "Linux"
+                        }
+                    },
+                    "visualisation": {
+                        "type": "data-stream-scalar",
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "i": "2fea90b6-fe56-40cf-82c9-d19a915fd4a7",
+                "x": 2,
+                "y": 2,
+                "w": 1,
+                "h": 2,
+                "moved": false,
+                "static": false,
+                "z": 0,
+                "config": {
+                    "_type": "tile/data-stream",
+                    "title": "Mac Hosts",
+                    "description": "",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "timeframe": "none",
+                    "dataStream": {
+                        "id": "{{dataStreams.[hostCount]}}",
+                        "name": "hostCount",
+                        "pluginConfigId": "{{configId}}",
+                        "dataSourceConfig": {
+                            "platform": "Mac"
+                        }
+                    },
+                    "visualisation": {
+                        "type": "data-stream-scalar",
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "i": "a70a7c9e-13c4-4ab9-a08a-33f65df11770",
+                "x": 0,
+                "y": 4,
+                "w": 1,
+                "h": 2,
+                "moved": false,
+                "static": false,
+                "z": 0,
+                "config": {
+                    "_type": "tile/data-stream",
+                    "title": "Critical Vulnerabilities",
+                    "description": "Open vulnerabilities",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "timeframe": "none",
+                    "dataStream": {
+                        "id": "{{dataStreams.[vulnerabilityCount]}}",
+                        "name": "vulnerabilityCount",
+                        "pluginConfigId": "{{configId}}",
+                        "dataSourceConfig": {
+                            "severity": [
+                                "CRITICAL"
+                            ],
+                            "status": [
+                                "open"
+                            ]
+                        }
+                    },
+                    "visualisation": {
+                        "type": "data-stream-scalar",
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "i": "316c45be-3af0-432e-8a04-0cbed91ee3f1",
+                "x": 1,
+                "y": 4,
+                "w": 1,
+                "h": 2,
+                "moved": false,
+                "static": false,
+                "z": 0,
+                "config": {
+                    "_type": "tile/data-stream",
+                    "title": "High Vulnerabilities",
+                    "description": "Open vulnerabilities",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "timeframe": "none",
+                    "dataStream": {
+                        "id": "{{dataStreams.[vulnerabilityCount]}}",
+                        "name": "vulnerabilityCount",
+                        "pluginConfigId": "{{configId}}",
+                        "dataSourceConfig": {
+                            "severity": [
+                                "HIGH"
+                            ],
+                            "status": [
+                                "open"
+                            ]
+                        }
+                    },
+                    "visualisation": {
+                        "type": "data-stream-scalar",
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "i": "1a1cda51-d119-471e-889d-a24a7d324492",
+                "x": 2,
+                "y": 4,
+                "w": 1,
+                "h": 2,
+                "moved": false,
+                "static": false,
+                "z": 0,
+                "config": {
+                    "_type": "tile/data-stream",
+                    "title": "Medium Vulnerabilities",
+                    "description": "Open vulnerabilities",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "timeframe": "none",
+                    "dataStream": {
+                        "id": "{{dataStreams.[vulnerabilityCount]}}",
+                        "name": "vulnerabilityCount",
+                        "pluginConfigId": "{{configId}}",
+                        "dataSourceConfig": {
+                            "severity": [
+                                "MEDIUM"
+                            ],
+                            "status": [
+                                "open"
+                            ]
+                        }
+                    },
+                    "visualisation": {
+                        "type": "data-stream-scalar",
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "i": "7285d9e4-db98-479f-8e6a-5e3bee7f3975",
+                "x": 3,
+                "y": 4,
+                "w": 1,
+                "h": 2,
+                "moved": false,
+                "static": false,
+                "z": 0,
+                "config": {
+                    "_type": "tile/data-stream",
+                    "title": "Low Vulnerabilities",
+                    "description": "Open vulnerabilities",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "timeframe": "none",
+                    "dataStream": {
+                        "id": "{{dataStreams.[vulnerabilityCount]}}",
+                        "name": "vulnerabilityCount",
+                        "pluginConfigId": "{{configId}}",
+                        "dataSourceConfig": {
+                            "severity": [
+                                "LOW"
+                            ],
+                            "status": [
+                                "open"
+                            ]
+                        }
+                    },
+                    "visualisation": {
+                        "type": "data-stream-scalar",
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             }

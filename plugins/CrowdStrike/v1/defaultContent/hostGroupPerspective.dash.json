@@ -2,7 +2,9 @@
     "name": "Host Group",
     "schemaVersion": "1.5",
     "timeframe": "last7days",
-    "variables": ["{{variables.[Host Group]}}"],
+    "variables": [
+        "{{variables.[Host Group]}}"
+    ],
     "dashboard": {
         "_type": "layout/grid",
         "columns": 4,
@@ -21,9 +23,13 @@
                     "_type": "tile/data-stream",
                     "title": "Hosts",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[devices]}}",
                         "name": "devices",
@@ -35,11 +41,23 @@
                                 "scope": "{{scopes.[Host Groups]}}"
                             }
                         },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                        "group": {
+                            "by": [],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "count",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -56,9 +74,13 @@
                     "_type": "tile/data-stream",
                     "title": "Prevention Policy Applied",
                     "description": "Hosts with a prevention policy applied",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[devices]}}",
                         "name": "devices",
@@ -73,14 +95,30 @@
                         "filter": {
                             "multiOperation": "and",
                             "filters": [
-                                { "column": "device_policies.prevention.applied", "operation": "equals", "value": "true" }
+                                {
+                                    "column": "device_policies.prevention.applied",
+                                    "operation": "equals",
+                                    "value": "true"
+                                }
                             ]
                         },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                        "group": {
+                            "by": [],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "count",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -97,9 +135,13 @@
                     "_type": "tile/data-stream",
                     "title": "Sensor Update Policy Applied",
                     "description": "Hosts with a sensor update policy applied",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[devices]}}",
                         "name": "devices",
@@ -121,11 +163,23 @@
                                 }
                             ]
                         },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                        "group": {
+                            "by": [],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "count",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -141,30 +195,37 @@
                 "config": {
                     "_type": "tile/data-stream",
                     "title": "Open Vulnerabilities",
-                    "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "description": "Open vulnerabilities on hosts in this group",
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
-                        "id": "{{dataStreams.[vulnerabilities]}}",
-                        "name": "vulnerabilities",
+                        "id": "{{dataStreams.[vulnerabilityCount]}}",
+                        "name": "vulnerabilityCount",
                         "pluginConfigId": "{{configId}}",
                         "dataSourceConfig": {
                             "scope": {
                                 "variable": "{{variables.[Host Group]}}",
                                 "workspace": "{{workspaceId}}",
                                 "scope": "{{scopes.[Host Groups]}}"
-                            }
-                        },
-                        "filter": {
-                            "multiOperation": "and",
-                            "filters": [{ "column": "status", "operation": "equals", "value": "open" }]
-                        },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                            },
+                            "status": [
+                                "open"
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "result",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -181,9 +242,13 @@
                     "_type": "tile/data-stream",
                     "title": "OS / Platform Breakdown",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[devices]}}",
                         "name": "devices",
@@ -196,8 +261,17 @@
                             }
                         },
                         "group": {
-                            "by": [["platform_name", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                            "by": [
+                                [
+                                    "platform_name",
+                                    "uniqueValues"
+                                ]
+                            ],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
                         }
                     },
                     "visualisation": {
@@ -227,9 +301,13 @@
                     "_type": "tile/data-stream",
                     "title": "Sensor Version Distribution",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[devices]}}",
                         "name": "devices",
@@ -242,8 +320,17 @@
                             }
                         },
                         "group": {
-                            "by": [["agent_version", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                            "by": [
+                                [
+                                    "agent_version",
+                                    "uniqueValues"
+                                ]
+                            ],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
                         }
                     },
                     "visualisation": {
@@ -273,9 +360,13 @@
                     "_type": "tile/data-stream",
                     "title": "Prevention Policies",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[preventionPolicies]}}",
                         "name": "preventionPolicies",
@@ -291,8 +382,17 @@
                         "config": {
                             "data-stream-table": {
                                 "transpose": false,
-                                "columnOrder": ["name", "platform_name", "enabled", "description", "modified_timestamp"],
-                                "hiddenColumns": ["id", "created_timestamp"]
+                                "columnOrder": [
+                                    "name",
+                                    "platform_name",
+                                    "enabled",
+                                    "description",
+                                    "modified_timestamp"
+                                ],
+                                "hiddenColumns": [
+                                    "id",
+                                    "created_timestamp"
+                                ]
                             }
                         }
                     }
@@ -311,9 +411,13 @@
                     "_type": "tile/data-stream",
                     "title": "Sensor Update Policies",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[sensorUpdatePolicies]}}",
                         "name": "sensorUpdatePolicies",
@@ -336,7 +440,11 @@
                                     "settings.build",
                                     "modified_timestamp"
                                 ],
-                                "hiddenColumns": ["id", "description", "created_timestamp"]
+                                "hiddenColumns": [
+                                    "id",
+                                    "description",
+                                    "created_timestamp"
+                                ]
                             }
                         }
                     }
@@ -355,8 +463,12 @@
                     "_type": "tile/data-stream",
                     "title": "Alerts",
                     "description": "Alerts created within the dashboard timeframe",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
@@ -368,11 +480,23 @@
                                 "scope": "{{scopes.[Host Groups]}}"
                             }
                         },
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
+                        "group": {
+                            "by": [],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-scalar",
-                        "config": { "data-stream-scalar": { "value": "count", "comparisonColumn": "none" } }
+                        "config": {
+                            "data-stream-scalar": {
+                                "value": "count",
+                                "comparisonColumn": "none"
+                            }
+                        }
                     }
                 }
             },
@@ -389,8 +513,12 @@
                     "_type": "tile/data-stream",
                     "title": "Avg Detection Latency",
                     "description": "Average time between first behavior and alert creation",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
@@ -404,7 +532,14 @@
                         },
                         "group": {
                             "by": [],
-                            "aggregate": [{ "type": "mean", "names": ["detectionLatencySeconds"] }]
+                            "aggregate": [
+                                {
+                                    "type": "mean",
+                                    "names": [
+                                        "detectionLatencySeconds"
+                                    ]
+                                }
+                            ]
                         }
                     },
                     "visualisation": {
@@ -431,8 +566,12 @@
                     "_type": "tile/data-stream",
                     "title": "Avg Response Latency",
                     "description": "Average time between alert creation and closure",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
@@ -446,7 +585,14 @@
                         },
                         "group": {
                             "by": [],
-                            "aggregate": [{ "type": "mean", "names": ["responseLatencySeconds"] }]
+                            "aggregate": [
+                                {
+                                    "type": "mean",
+                                    "names": [
+                                        "responseLatencySeconds"
+                                    ]
+                                }
+                            ]
                         }
                     },
                     "visualisation": {
@@ -473,8 +619,12 @@
                     "_type": "tile/data-stream",
                     "title": "Alerts by Severity",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
@@ -487,8 +637,17 @@
                             }
                         },
                         "group": {
-                            "by": [["severity_name", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                            "by": [
+                                [
+                                    "severity_name",
+                                    "uniqueValues"
+                                ]
+                            ],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
                         }
                     },
                     "visualisation": {
@@ -518,8 +677,12 @@
                     "_type": "tile/data-stream",
                     "title": "Alerts by Status",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
@@ -532,17 +695,35 @@
                             }
                         },
                         "group": {
-                            "by": [["status", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                            "by": [
+                                [
+                                    "status",
+                                    "uniqueValues"
+                                ]
+                            ],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
                         },
-                        "sort": { "by": [["count", "desc"]] }
+                        "sort": {
+                            "by": [
+                                [
+                                    "count",
+                                    "desc"
+                                ]
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-bar-chart",
                         "config": {
                             "data-stream-bar-chart": {
                                 "xAxisData": "status_uniqueValues",
-                                "yAxisData": ["count"],
+                                "yAxisData": [
+                                    "count"
+                                ],
                                 "xAxisGroup": "none",
                                 "xAxisLabel": "",
                                 "yAxisLabel": "Alerts",
@@ -556,7 +737,9 @@
                                 "showTotals": false,
                                 "showValue": true,
                                 "grouping": false,
-                                "range": { "type": "auto" }
+                                "range": {
+                                    "type": "auto"
+                                }
                             }
                         }
                     }
@@ -575,8 +758,12 @@
                     "_type": "tile/data-stream",
                     "title": "Recent Alerts",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[alerts]}}",
                         "name": "alerts",
@@ -588,7 +775,15 @@
                                 "scope": "{{scopes.[Host Groups]}}"
                             }
                         },
-                        "sort": { "by": [["created_timestamp", "desc"]], "top": 15 }
+                        "sort": {
+                            "by": [
+                                [
+                                    "created_timestamp",
+                                    "desc"
+                                ]
+                            ],
+                            "top": 15
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-table",
@@ -642,9 +837,13 @@
                     "_type": "tile/data-stream",
                     "title": "Vulnerabilities by Severity",
                     "description": "Open vulnerabilities only",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[vulnerabilities]}}",
                         "name": "vulnerabilities",
@@ -658,11 +857,26 @@
                         },
                         "filter": {
                             "multiOperation": "and",
-                            "filters": [{ "column": "status", "operation": "equals", "value": "open" }]
+                            "filters": [
+                                {
+                                    "column": "status",
+                                    "operation": "equals",
+                                    "value": "open"
+                                }
+                            ]
                         },
                         "group": {
-                            "by": [["cve.severity", "uniqueValues"]],
-                            "aggregate": [{ "type": "count" }]
+                            "by": [
+                                [
+                                    "cve.severity",
+                                    "uniqueValues"
+                                ]
+                            ],
+                            "aggregate": [
+                                {
+                                    "type": "count"
+                                }
+                            ]
                         }
                     },
                     "visualisation": {
@@ -692,9 +906,13 @@
                     "_type": "tile/data-stream",
                     "title": "Top Vulnerable Hosts",
                     "description": "Open vulnerabilities with the highest CVSS score, in this group",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[vulnerabilities]}}",
                         "name": "vulnerabilities",
@@ -708,9 +926,23 @@
                         },
                         "filter": {
                             "multiOperation": "and",
-                            "filters": [{ "column": "status", "operation": "equals", "value": "open" }]
+                            "filters": [
+                                {
+                                    "column": "status",
+                                    "operation": "equals",
+                                    "value": "open"
+                                }
+                            ]
                         },
-                        "sort": { "by": [["cve.base_score", "desc"]], "top": 10 }
+                        "sort": {
+                            "by": [
+                                [
+                                    "cve.base_score",
+                                    "desc"
+                                ]
+                            ],
+                            "top": 10
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-table",
@@ -755,9 +987,13 @@
                     "_type": "tile/data-stream",
                     "title": "Member Devices",
                     "description": "",
-                    "activePluginConfigIds": ["{{configId}}"],
+                    "activePluginConfigIds": [
+                        "{{configId}}"
+                    ],
                     "timeframe": "none",
-                    "variables": ["{{variables.[Host Group]}}"],
+                    "variables": [
+                        "{{variables.[Host Group]}}"
+                    ],
                     "dataStream": {
                         "id": "{{dataStreams.[devices]}}",
                         "name": "devices",
@@ -769,7 +1005,14 @@
                                 "scope": "{{scopes.[Host Groups]}}"
                             }
                         },
-                        "sort": { "by": [["last_seen", "desc"]] }
+                        "sort": {
+                            "by": [
+                                [
+                                    "last_seen",
+                                    "desc"
+                                ]
+                            ]
+                        }
                     },
                     "visualisation": {
                         "type": "data-stream-table",
