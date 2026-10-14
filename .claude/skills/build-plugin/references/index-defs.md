@@ -85,6 +85,30 @@ Building and testing a dependent step needs objects from its dependency to alrea
 
 ---
 
+## Large imports — choosing `pageSize`
+
+An import step fetches one page at a time and writes each page's objects to the graph before asking for the next, so a step has no object-count limit of its own. Two limits bound the stream's [`paging.pageSize`](data-streams.md#pagination) from opposite sides instead:
+
+| Limit | What it counts | `errorReason` when hit | Pushes `pageSize` |
+| --- | --- | --- | --- |
+| **~6MB per page** | One page, measured after SquaredUp formats it — larger than the raw API body. That page's objects are then written to the graph in a single request. | `Function.ResponseSizeTooLarge` | down |
+| **~220 calls per import run** | Each page is one more call in a chain. A dependent step continues the chain of the step it `dependsOn`. | `'call-chain-length' reached threshold of 220` | up |
+
+Each page must also return within the ~28s per-page timeout, another reason not to max out `pageSize`.
+
+Size it for the **largest environment the plugin will meet**, not your test tenant — a 500-object test account passes at any page size:
+
+1. **Pages** — `objects ÷ pageSize`, plus the pages of every step this one transitively `dependsOn`, must stay comfortably under ~200.
+2. **Bytes** — `pageSize × bytes per row` should stay under ~2MB of raw API response, leaving headroom for formatting. Measure a real page during exploration, e.g. `curl … | wc -c`.
+
+A worked example: a CrowdStrike import of ~92,700 hosts overflowed 6MB at 1,000 hosts per page. 250 per page would have needed ~371 calls, so 500 per page with a lean row (~186 calls) was the size that fit both limits.
+
+**Keep import rows lean.** An import stream exists to feed `objectMapping` — return only the id, name, type and mapped properties. If the API has a field-selection parameter (`fields`, `select`, `$select`), use it, and leave nested blobs and anything only a dashboard needs to a separate data stream. Smaller rows let a larger `pageSize` fit under 6MB, which is what lets a big inventory fit under the call cap.
+
+**If no `pageSize` satisfies both**, import less rather than fighting the limits: filter at the API (e.g. only active or managed hosts), or import a subset and query the rest live through unscoped data streams. Raise it with the user — the call cap is a platform setting, not something a plugin can change.
+
+---
+
 ## Stream-level requirements
 
 Import streams are ordinary data stream files in `dataStreams/` — they need `name`, `displayName`, `description`, and `tags` like any other stream. Mark import-only streams as hidden so they don't clutter the tile editor:
