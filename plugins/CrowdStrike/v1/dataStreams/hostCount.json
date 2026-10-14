@@ -1,7 +1,7 @@
 {
     "name": "hostCount",
     "displayName": "Host Count",
-    "description": "Number of hosts, optionally filtered by platform or containment status. Uses a single request, so it is fast on large tenants.",
+    "description": "Number of hosts, optionally filtered by platform or containment status, from a single request so it stays fast on large tenants",
     "tags": [
         "Security"
     ],

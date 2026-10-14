@@ -1,7 +1,7 @@
 {
     "name": "recentHosts",
     "displayName": "Recently Seen Hosts",
-    "description": "The 100 most recently seen hosts. A single request, so it is fast on large tenants.",
+    "description": "The 100 most recently seen hosts, from a single request so it stays fast on large tenants",
     "tags": [
         "Security"
     ],
