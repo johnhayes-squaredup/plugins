@@ -21,6 +21,7 @@
         "type": "text",
         "name": "clientId",
         "label": "Client ID",
+        "placeholder": "Enter the CrowdStrike API client ID",
         "help": "The Client ID of your CrowdStrike API client. [More info](https://falcon.crowdstrike.com/support/api-clients-and-keys)",
         "validation": { "required": true }
     },

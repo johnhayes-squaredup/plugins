@@ -1,6 +1,6 @@
 {
     "name": "currentUser",
-    "displayName": "Current User",
+    "displayName": "Host IDs",
     "description": "A minimal Falcon Hosts query, used only to verify the configured credentials can reach the API",
     "tags": ["Security"],
     "baseDataSourceName": "httpRequestUnscoped",
