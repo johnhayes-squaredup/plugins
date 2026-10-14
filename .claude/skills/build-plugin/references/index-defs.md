@@ -60,6 +60,12 @@ Defines what gets imported into the SquaredUp graph.
 - `objectMapping.properties` are extra fields stored on the graph node, accessible in scripts as `object.propName`.
 - Use `{ "targetProp": "sourceProp" }` syntax when the column name differs from the desired property name.
 - **Never map a column into `properties` that is already mapped as `id`, `name`, or `type`.** The id's raw value is always available on every object as `rawId` (`{{object.rawId}}` in templates, `context.objects[N].rawId` in scripts — and as a scalar, unlike user-defined properties, which arrive as arrays), and the name as `name`. Adding e.g. `{ "projectId": "id" }` to `properties` when `"id": "id"` already exists creates a duplicate that has to be re-indexed to take effect and otherwise sits as dead config — use `rawId`/`name` instead.
+- **Never use a reserved name as a property name.** The property name — a string entry, or the *key* in `{ "targetProp": "sourceProp" }` — becomes a property on the graph object, and the graph owns some names. Using one deploys cleanly, then fails the import with a raw schema error that doesn't mention your mapping:
+    - `id`, and any `__`-prefixed name — always rejected: `Payload failed schema validation` … `/vertices/0/id` … `boolean schema is false`. You don't need it — the object's id is already `rawId` (above).
+    - `state` — reserved by the platform; an API status (`"active"`) or a postal state (`"OH"`) fails with `must be equal to one of the allowed values`. Rename it: `{ "status": "state" }`, or `{ "region": "state" }` for an address.
+    - `rawId`, `sourceId`, `sourceType`, `name`, `label` — silently overwritten by the platform, so the mapping does nothing.
+
+    A reserved name is fine as the *source column* (`{ "status": "state" }` reads a column called `state`). `squaredup validate` rejects `id`, `state` and `__` names; it can't catch the silent overwrites.
 - The `objectMapping.sourceType` column value **must** match an entry in `objectTypes` in `metadata.json`. For dynamic ones add these based on API response data later.
 - `frequencyMinutes` — controls re-import interval. Defaults to `720` (12 hours).
 
