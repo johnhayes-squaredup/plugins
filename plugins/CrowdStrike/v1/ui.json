@@ -7,7 +7,6 @@
         "validation": { "required": true },
         "isMulti": false,
         "allowCustomValues": false,
-        "defaultValue": "https://api.crowdstrike.com",
         "data": {
             "source": "fixed",
             "values": [

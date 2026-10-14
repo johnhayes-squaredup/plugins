@@ -8,7 +8,9 @@ You will need a CrowdStrike Falcon **API client** with read scopes for Hosts, Al
 2. Go to **Support and resources → API clients and keys** and click **Add new API client**.
 3. Give the client a name, and grant it **Read** scope for: **Hosts**, **Host Groups**, **Alerts**, **Spotlight Vulnerabilities**, **Sensor Update Policies**, **Prevention Policies**, and **Sensor Usage**.
 4. Copy the generated **Client ID** and **Client Secret** — the secret is shown only once.
-5. Note the **Cloud** your Falcon tenant runs in (shown on the same page, e.g. `api.us-2.crowdstrike.com`) and paste the three values into the fields below.
+5. Note the **Cloud** your Falcon tenant runs in (US-1, US-2, EU-1 or US-GOV-1 / GovCloud) and select it in the form below, then enter the Client ID and Client Secret.
+
+> Each dashboard tile needs its own scope. A tile whose scope is missing shows "access denied, scope not permitted"; the rest of the dashboard still works. Hosts and Host Groups drive host counts and the Host Group perspective; Alerts drives alert tiles; Spotlight Vulnerabilities drives vulnerability tiles; the policy scopes drive the policy tiles.
 
 ## Configuration fields
 
@@ -32,6 +34,9 @@ The out-of-the-box dashboards include an account-wide **Overview**, a **Host Gro
 
 ## Data streams
 
+- **Host Count** — number of hosts, optionally by platform or containment status, from a single request (fast on large tenants).
+- **Vulnerability Count** — number of Spotlight vulnerabilities by host/group, severity and status, from a single request.
+- **Recently Seen Hosts** — the 100 most recently seen hosts.
 - **Devices** — host inventory (platform, OS, sensor version, network, group membership, policy applied state), account-wide or scoped to a Host or Host Group.
 - **Alerts** — detections and incidents from the unified Falcon Alerts API, account-wide or scoped to a Host or Host Group, with a Status filter.
 - **Vulnerabilities** — open Spotlight vulnerability findings, account-wide or scoped to a Host or Host Group, with a Status filter.
@@ -50,12 +55,12 @@ The out-of-the-box dashboards include an account-wide **Overview**, a **Host Gro
 
 ## Known limitations
 
-> ⚠️ **This build has not been tested against a live CrowdStrike tenant.** It was authored from CrowdStrike's published API documentation and an endpoint reference list, but no CrowdStrike API credentials were available during development, so no data stream has been exercised against real data and no import has been run. Every field name, filter expression, and response shape below should be verified — and adjusted if needed — against a real Falcon tenant before this plugin is relied on.
+> ⚠️ **Tested at scale on one GovCloud (US-GOV-1) tenant of about 92,700 hosts.** Authentication, Host Group and Host import, host counts and the Host Group perspective's host tiles have been verified. Alerts, Vulnerabilities, policy and Sensor Usage streams could not be verified against live data because the test API client lacked those scopes, so their field names and filters follow CrowdStrike's documentation only.
+- **Large tenants** — streams that list hosts, alerts or vulnerabilities page through every result, and one query can make at most 220 requests. Use the count streams for whole-tenant totals and scope list streams to a Host Group.
 - **Incidents API not used** — the legacy `/incidents/*` API is deprecated (removed as of March 2026); this plugin uses the unified `/alerts/*` API for both detections and incidents.
 - **Time-to-containment is not surfaced** — CrowdStrike's API exposes containment actions but not a completed-containment timestamp, so response-latency here is measured as alert `created` → `updated` (when closed), not true time-to-containment.
 - **Host Group scoping for Alerts and Vulnerabilities is unverified** — filtering these by Host Group assumes the alert/vulnerability payload embeds the host's group membership (`device.groups` / `host_info.groups`); if CrowdStrike's response doesn't expose that field, Host-Group-scoped Alerts/Vulnerabilities tiles will need an alternate filter approach.
 - **Sensor Usage column names are unverified** — the billing-dashboards-usage endpoint's exact response shape wasn't confirmed against live data; the stream surfaces whatever columns the API returns via a catch-all, so the default table tile may need column renaming once real data is seen.
 - **Dashboard filters use assumed raw values** — the Overview KPI/donut tiles filter on assumed raw API values (alert `status` of `new`/`in_progress`/`closed`/`reopened`, device `status` of `contained`, a CVSS-score threshold as a proxy for "Critical/High" severity); these should be checked against real payloads and adjusted if CrowdStrike's actual values differ.
-- **Account-wide tiles on unscoped consolidated streams** (Devices/Alerts/Vulnerabilities on the Overview dashboard) omit the scope binding entirely, per the documented pattern for an empty selection — if this throws a `nodeIds` error on a live tenant, the fix is to bind an explicit empty selection instead.
 - **Read-only** — the plugin never creates, modifies, or deletes anything in CrowdStrike Falcon.
 - **Requires a paid Falcon subscription with API access** — a trial account may not expose all the scopes this plugin requests (Hosts, Host Groups, Alerts, Spotlight Vulnerabilities, Sensor Update Policies, Prevention Policies, Sensor Usage).
