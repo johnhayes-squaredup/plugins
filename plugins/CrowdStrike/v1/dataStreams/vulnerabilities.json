@@ -17,7 +17,7 @@
             },
             {
                 "key": "filter",
-                "value": "{{ (typeof scope === 'undefined' || !scope ? [] : [ [\"aid\", scope.filter(o => (typeof o.type === 'string' ? o.type : JSON.stringify(o)).indexOf('Host Group') < 0)], [\"host_info.groups\", scope.filter(o => (typeof o.type === 'string' ? o.type : JSON.stringify(o)).indexOf('Host Group') >= 0)] ].filter(p => p[1].length).map(p => p[0] + \":[\" + p[1].map(o => \"'\" + String([].concat(o.rawId !== undefined ? o.rawId : (o.sourceId || o.id))[0]).split('~').pop() + \"'\").join(\",\") + \"]\")).concat((typeof status === 'undefined' || !status || !status.length ? [ \"status:['open','reopen']\" ] : [ \"status:[\" + status.map(s => \"'\" + (s.value || s) + \"'\").join(\",\") + \"]\" ])).join(\"+\") }}"
+                "value": "{{ ((S => S.length > 1 ? [ \"(\" + S.join(\",\") + \")\" ] : S)((typeof scope === 'undefined' || !scope ? [] : [ [\"aid\", scope.filter(o => (typeof o.type === 'string' ? o.type : JSON.stringify(o)).indexOf('Host Group') < 0)], [\"host_info.groups\", scope.filter(o => (typeof o.type === 'string' ? o.type : JSON.stringify(o)).indexOf('Host Group') >= 0)] ].filter(p => p[1].length).map(p => p[0] + \":[\" + p[1].map(o => \"'\" + String([].concat(o.rawId !== undefined ? o.rawId : (o.sourceId || o.id))[0]).split('~').pop() + \"'\").join(\",\") + \"]\")))).concat((typeof status === 'undefined' || !status || !status.length ? [ \"status:['open','reopen']\" ] : [ \"status:[\" + status.map(s => \"'\" + (s.value || s) + \"'\").join(\",\") + \"]\" ])).join(\"+\") }}"
             }
         ],
         "paging": {
