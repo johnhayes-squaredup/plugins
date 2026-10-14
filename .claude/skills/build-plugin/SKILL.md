@@ -1,6 +1,6 @@
 ---
 name: build-plugin
-description: Guides building a SquaredUp low-code plugin for HTTP/REST APIs, from API exploration through deployment, with an optional pull request to contribute it to the community. Use when the user wants to integrate a service with SquaredUp, add a new data source, connect to a third-party tool, "pull data from", or "monitor" any service in SquaredUp.
+description: Guides building a SquaredUp low-code plugin for HTTP/REST APIs, from API exploration through deployment. Use when the user wants to integrate a service with SquaredUp, add a new data source, connect to a third-party tool, "pull data from", or "monitor" any service in SquaredUp.
 metadata:
     author: SquaredUp
     version: "1.1.0"
@@ -330,11 +330,6 @@ Then invoke the `deploy-plugin` skill for the final validate, version bump, and 
 
 Once the final deploy has landed, **ask the user** with `AskUserQuestion` whether they'd like to contribute the plugin to the community by raising a pull request against `squaredup/plugins`. Always ask — even in autonomous mode, and even if the user waived the Phase 2 approval gate — and never raise a PR without an explicit yes. If they decline, the build is complete.
 
-On a yes, follow [contribute.md](references/contribute.md) step by step. In outline:
+Ask **once per conversation**. If the user is making a series of small changes (adding a stream, tweaking a tile), deploying each one, don't ask again after every deploy — once they've answered, they can ask for this step themselves when they're ready.
 
-1. Check the preconditions — the GitHub CLI (or a git-and-browser fallback without it), a clone of `squaredup/plugins`, new plugin vs change, push access vs fork.
-2. Run the **sensitivity review**: secrets, organisation-specific hosts and IDs, people and company names, and internal tools — in the files _and_ the branch's history — and resolve every finding with the user.
-3. Branch from `main`, stage only the plugin folder (plus an optional `CODEOWNERS` line), and confirm the PR touches a single plugin.
-4. Fill in the matching PR template from what this build actually produced, and ask the user to agree to the Code of Conduct — tick that box only on an explicit yes.
-5. Push and open the PR only once the user approves.
-6. Tell the user what happens next: automated checks, CodeRabbit review, SquaredUp team review, then merge and release to all SquaredUp users.
+On a yes, follow [contribute.md](references/contribute.md).

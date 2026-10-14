@@ -112,16 +112,12 @@ The repository requires the **matching template**, and PRs raised without it may
 - New plugin → `.github/PULL_REQUEST_TEMPLATE/Add a new plugin.md`
 - Change to an existing plugin → `.github/PULL_REQUEST_TEMPLATE/Change to an existing plugin.md`
 
-Keep every heading and checklist in the template's order and fill each section from what this build actually produced. Write the body to a file (e.g. in your scratch directory) so it can be shown to the user and passed to `gh`.
+Keep every heading and checklist in the template's order and fill each section from what this build actually produced. Write the body to a file (e.g. in your scratch directory) so it can be shown to the user and passed to `gh`. A few things the template can't tell you:
 
-| Template section | Fill it from |
-| --- | --- |
-| Plugin overview / Summary | `metadata.json` (`displayName`, `description`), the Phase 2 plan, and the auth mechanism from `ui.json` |
-| Screenshots | Leave the headings in place with a note for the user to drag images in on GitHub — `gh` can't upload them |
-| Test plan / Testing | What was **actually** run against a live, authenticated deployment: the Checkpoint A auth probe, the Checkpoint B import (object types and counts), each data stream's PASS report from Phases 5–6, and the default dashboards rendering. The template says "Validation is not testing" — don't offer `squaredup validate` as the test plan |
-| Known limitations | The finalised **Known limitations** section of `docs/README.md` (Phase 9) |
-| Type of change / Breaking changes / Documentation | The real diff. A removed or renamed data stream, or significantly changed UI parameters, is breaking and needs a new major version folder — see [REVIEW.md](../../../../REVIEW.md#versioning) |
-| Checklist | Tick only items you have verified (single plugin, logo, dashboards, README, naming checked against REVIEW.md, no secrets — step 3). The Code of Conduct item is ticked only as described below |
+- **Testing** means what was actually run against the live deployment — the Checkpoint A auth probe, the Checkpoint B import, each stream's PASS report from Phases 5–6, the dashboards rendering. `squaredup validate` is not a test plan.
+- **Known limitations** already exist — copy them from the finalised `docs/README.md`.
+- **Screenshots** can't be uploaded by `gh` — leave those headings with a note for the user to drag images in on GitHub.
+- **Checklist** items are ticked only once verified; "no secrets" is earned by step 3, and the Code of Conduct item only as described below.
 
 Take the HTML comment prompts out once a section is filled. Don't add sections the template doesn't have, and don't put tenant details, internal links or anything step 3 removed back into the description.
 
