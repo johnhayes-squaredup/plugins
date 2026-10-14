@@ -20,7 +20,7 @@ You will need a CrowdStrike Falcon **API client** with read scopes for Hosts, Al
 | **Client ID** | Identifies the API client used to authenticate requests. | **Support and resources → API clients and keys**. | Yes |
 | **Client Secret** | Authenticates the API client via OAuth2 client-credentials. | Shown once when the API client is created. | Yes |
 
-On save, the plugin validates the credentials with a minimal Hosts query; an invalid Client ID/Secret, wrong Cloud region, or missing scope fails setup with an authentication error.
+On save, the plugin checks the credentials with a minimal Hosts query (`GET /devices/queries/devices/v1`); an invalid Client ID/Secret, wrong Cloud region, or missing Hosts scope fails setup with an authentication error. This check does not test the other scopes, so a missing Alerts, Spotlight Vulnerabilities, policy or Sensor Usage scope only shows up on the tiles that use it.
 
 ## What this plugin monitors
 
