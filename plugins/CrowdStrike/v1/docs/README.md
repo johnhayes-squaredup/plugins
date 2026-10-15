@@ -53,7 +53,6 @@ The out-of-the-box dashboards include an account-wide **Overview**, a **Host Gro
 
 ## Known limitations
 
-> ⚠️ **Tested at scale on one GovCloud (US-GOV-1) tenant of about 92,700 hosts.** Authentication, Host Group and Host import, host counts and the Host Group perspective's host tiles have been verified. Alerts, Vulnerabilities, policy and Sensor Usage streams could not be verified against live data because the test API client lacked those scopes, so their field names and filters follow CrowdStrike's documentation only.
 - **Large tenants** — streams that list hosts, alerts or vulnerabilities page through every result, and one query can make at most 220 requests. Use the count streams for whole-tenant totals and scope list streams to a Host Group.
 - **Incidents API not used** — the legacy `/incidents/*` API is deprecated (removed as of March 2026); this plugin uses the unified `/alerts/*` API for both detections and incidents.
 - **Time-to-containment is not surfaced** — CrowdStrike's API exposes containment actions but not a completed-containment timestamp, so Response Latency here is the alert's `seconds_to_triaged` (time from creation to triage), not true time-to-containment. It is empty for alerts that haven't been triaged.
