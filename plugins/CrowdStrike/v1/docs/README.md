@@ -10,8 +10,6 @@ You will need a CrowdStrike Falcon **API client** with read scopes for Hosts, Al
 4. Copy the generated **Client ID** and **Client Secret** — the secret is shown only once.
 5. Note the **Cloud** your Falcon tenant runs in (US-1, US-2, EU-1 or US-GOV-1 / GovCloud) and select it in the form below, then enter the Client ID and Client Secret.
 
-> Each dashboard tile needs its own scope. A tile whose scope is missing shows "access denied, scope not permitted"; the rest of the dashboard still works. Hosts and Host Groups drive host counts and the Host Group perspective; Alerts drives alert tiles; Spotlight Vulnerabilities drives vulnerability tiles; the policy scopes drive the policy tiles.
-
 ## Configuration fields
 
 | Field | What it is | Where to find it | Required |
