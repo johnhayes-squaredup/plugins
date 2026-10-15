@@ -40,7 +40,7 @@
         "expandInnerObjects": true,
         "errorHandling": {
             "type": "script",
-            "script": "errorHandling/vulnerabilities.js"
+            "script": "errorHandling/falconApiError.js"
         }
     },
     "matches": "none",

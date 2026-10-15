@@ -25,7 +25,7 @@
         "pathToData": "meta.pagination.total",
         "errorHandling": {
             "type": "script",
-            "script": "errorHandling/hostCount.js"
+            "script": "errorHandling/falconApiError.js"
         }
     },
     "matches": "none",
