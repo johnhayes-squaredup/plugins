@@ -1,0 +1,46 @@
+{
+    "name": "tracesLatest",
+    "displayName": "Traces Latest",
+    "description": "Recent trace spans in a stream, within a time range",
+    "tags": ["Traces"],
+    "baseDataSourceName": "httpRequestScopedSingle",
+    "config": {
+        "httpMethod": "get",
+        "endpointPath": "{{object.name}}/traces/latest",
+        "getArgs": [
+            { "key": "start_time", "value": "{{timeframe.unixStart * 1000000}}" },
+            { "key": "end_time", "value": "{{timeframe.unixEnd * 1000000}}" },
+            { "key": "size", "value": "{{size}}" },
+            { "key": "from", "value": "0" },
+            { "key": "filter", "value": "{{filter || null}}" }
+        ],
+        "postRequestScript": "tracesLatest.js"
+    },
+    "matches": {
+        "sourceType": { "type": "oneOf", "values": ["OpenObserve Stream"] },
+        "stream_type": { "type": "equals", "value": "traces" }
+    },
+    "ui": [
+        {
+            "type": "number",
+            "name": "size",
+            "label": "Max rows",
+            "defaultValue": 50
+        },
+        {
+            "type": "text",
+            "name": "filter",
+            "label": "Filter (optional)"
+        }
+    ],
+    "metadata": [
+        {
+            "name": "timestamp",
+            "displayName": "Timestamp",
+            "role": "timestamp",
+            "shape": "date"
+        },
+        { "pattern": ".*" }
+    ],
+    "timeframes": true
+}
