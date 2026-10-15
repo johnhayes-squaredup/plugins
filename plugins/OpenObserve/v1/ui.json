@@ -1,50 +1,48 @@
 [
     {
-        "type": "autocomplete",
-        "name": "region",
-        "label": "Region",
-        "help": "The OpenObserve Cloud region your organization was created in — matches the URL you sign in at.",
-        "allowCustomValues": false,
-        "isMulti": false,
-        "isClearable": false,
+        "type": "url",
+        "name": "url",
+        "label": "URL",
+        "placeholder": "http://51.8.18.48",
+        "help": "The base URL of your self-hosted OpenObserve instance, **including the scheme** (`http://` or `https://`), without a trailing slash or port — the port is set separately below.",
         "validation": {
             "required": true
-        },
-        "data": {
-            "source": "fixed",
-            "values": [
-                {
-                    "value": "https://cloud.openobserve.ai",
-                    "label": "US East (Ohio) — cloud.openobserve.ai"
-                },
-                {
-                    "value": "https://us2.openobserve.ai",
-                    "label": "US West (California) — us2.openobserve.ai"
-                },
-                {
-                    "value": "https://eu1.openobserve.ai",
-                    "label": "EU (Frankfurt) — eu1.openobserve.ai"
-                }
-            ]
+        }
+    },
+    {
+        "type": "number",
+        "name": "port",
+        "label": "Port",
+        "defaultValue": 5080,
+        "help": "The port your OpenObserve instance listens on.",
+        "validation": {
+            "required": true
         }
     },
     {
         "type": "text",
         "name": "organization",
         "label": "Organization",
+        "defaultValue": "default",
         "placeholder": "default",
-        "help": "Your OpenObserve organization identifier. Find it in **Data Sources** in the OpenObserve sidebar — it's the segment of the sample cURL command right after `/api/`.",
+        "help": "Your OpenObserve organization identifier.",
         "validation": {
             "required": true
         }
     },
     {
         "type": "password",
-        "name": "key",
-        "label": "Authorization key",
-        "help": "The full HTTP Basic Authorization value for your organization — sent through unmodified as `Authorization: Basic <this value>`. This is **not** a plain password or token; it's the already base64-encoded `username:password` (or `username:token`) pair. Paste it exactly as given to you — it is not re-encoded.",
+        "name": "apiKey",
+        "label": "API Key",
+        "help": "The full HTTP Basic Authorization value for your organization — sent through unmodified as `Authorization: Basic <this value>`. This is the already base64-encoded `username:password` (or `username:token`) pair, not a plain password or token. Paste it exactly as given to you — it is not re-encoded.",
         "validation": {
             "required": true
         }
+    },
+    {
+        "type": "checkbox",
+        "name": "ignoreCertificateErrors",
+        "label": "Ignore certificate errors",
+        "help": "Enable when connecting to an instance with a self-signed certificate."
     }
 ]

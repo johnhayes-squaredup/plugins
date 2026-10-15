@@ -1,0 +1,9 @@
+[
+    {
+        "name": "OpenObserve Stream",
+        "sourceType": "OpenObserve Stream",
+        "icon": "stream",
+        "singular": "Stream",
+        "plural": "Streams"
+    }
+]

@@ -6,13 +6,13 @@
         "name": "SquaredUp Labs",
         "type": "labs"
     },
-    "description": "Monitor streams, run log search, and check functions and cluster health in your OpenObserve Cloud organization.",
+    "description": "Monitor streams, run log search, and check functions and cluster health in your self-hosted OpenObserve instance.",
     "category": "Monitoring",
     "type": "hybrid",
     "schemaVersion": "2.1",
     "importNotSupported": false,
     "restrictedToPlatforms": [],
-    "keywords": ["observability", "logs", "log search", "openobserve"],
+    "keywords": ["observability", "logs", "log search", "openobserve", "self-hosted"],
     "objectTypes": ["OpenObserve Stream"],
     "links": [
         {
@@ -30,12 +30,13 @@
         "plugin": "WebAPI",
         "majorVersion": "1",
         "config": {
-            "baseUrl": "{{region}}/api/{{organization}}",
+            "baseUrl": "{{url}}:{{port}}/api/{{organization}}",
             "authMode": "none",
             "headers": [
-                { "key": "Authorization", "value": "Basic {{key}}" }
+                { "key": "Authorization", "value": "Basic {{apiKey}}" }
             ],
-            "queryArgs": []
+            "queryArgs": [],
+            "ignoreCertificateErrors": "{{ignoreCertificateErrors}}"
         }
     }
 }
