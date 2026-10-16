@@ -48,7 +48,7 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Search** — records matching a user-supplied SQL query against one stream; scoped to a stream.
 - **Logs Search** — records matching a user-supplied SQL query against any log stream, without picking a stream first; account-wide.
 - **Stream Field Values** — the most common values for chosen fields in one stream; scoped to a stream.
-- **Traces Latest** — recent trace spans within a time range; scoped to a trace stream.
+- **Traces Latest** — recent traces within a time range, with a span count and a link to view each trace in OpenObserve; scoped to a trace stream.
 - **Metrics Query** — time series data matching a PromQL query; account-wide.
 - **Pipelines** — data-transformation pipelines defined in the organization, with node/edge counts and last error; account-wide.
 - **Pipeline History** — pipeline execution history within a time range; account-wide.
@@ -70,4 +70,5 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Very broad search timeframes may exceed the platform's response size limit** — narrow the timeframe or reduce **Max rows** if a Search, Logs Search, or Traces Latest tile fails to load.
 - **Pipeline History's time-range unit is unverified** — this plugin sends microseconds, matching every other timed endpoint in this plugin, but it couldn't be confirmed against real pipeline-run data; if the tile returns no rows despite a pipeline having run recently, this is worth rechecking.
 - **Traces Latest only applies to trace-type streams** — it isn't included on the Stream perspective dashboard (which covers all three stream types); add it manually on a dashboard scoped to a trace stream.
+- **Traces Latest's "View Trace" link format is unverified** — it's built from OpenObserve's documented `/web/traces/trace-details` route (`org_identifier`, `stream`, `trace_id`, `from`, `to` query params, with `from`/`to` in microseconds), but this plugin was built without being able to click through and confirm the link actually opens the right trace. If it doesn't resolve correctly, this is the first thing to check.
 - **Read-only** — the plugin never creates, modifies, or deletes anything in OpenObserve.

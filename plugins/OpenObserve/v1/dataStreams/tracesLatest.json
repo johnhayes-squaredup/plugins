@@ -1,7 +1,7 @@
 {
     "name": "tracesLatest",
     "displayName": "Traces Latest",
-    "description": "Recent trace spans in a stream, within a time range",
+    "description": "Recent traces in a stream, within a time range",
     "tags": ["Traces"],
     "baseDataSourceName": "httpRequestScopedSingle",
     "config": {
@@ -34,11 +34,42 @@
         }
     ],
     "metadata": [
+        { "name": "start_time", "visible": false },
+        { "name": "end_time", "visible": false },
+        { "name": "duration", "visible": false },
+        { "name": "traceUrl", "visible": false },
         {
-            "name": "timestamp",
-            "displayName": "Timestamp",
+            "name": "startTime",
+            "displayName": "Start Time",
+            "computed": true,
             "role": "timestamp",
-            "shape": "date"
+            "shape": "date",
+            "valueExpression": "{{ $['start_time'] / 1000000 }}"
+        },
+        {
+            "name": "endTime",
+            "displayName": "End Time",
+            "computed": true,
+            "shape": "date",
+            "valueExpression": "{{ $['end_time'] / 1000000 }}"
+        },
+        {
+            "name": "durationMs",
+            "displayName": "Duration (ms)",
+            "computed": true,
+            "shape": "milliseconds",
+            "valueExpression": "{{ $['duration'] / 1000 }}"
+        },
+        {
+            "name": "spanCount",
+            "displayName": "Span Count",
+            "shape": "number"
+        },
+        {
+            "name": "trace_id",
+            "displayName": "Trace ID",
+            "valueExpression": "{{ $['traceUrl'] }}",
+            "shape": ["url", { "label": "View Trace" }]
         },
         { "pattern": ".*" }
     ],
