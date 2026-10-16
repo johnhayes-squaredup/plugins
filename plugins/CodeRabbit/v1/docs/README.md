@@ -38,7 +38,7 @@ The out-of-the-box dashboards are **Overview**, **Licenses**, **PRs & Reviews**,
 - **Licenses**: seats purchased, seats assigned, seats available, seat utilization and the seat assignment mode.
 - **Users**: every CodeRabbit user with their role and whether they hold a seat.
 - **Organizations**: the CodeRabbit organizations the API key can access, with their Git provider.
-- **Audit logs**: administrative actions in the organization, with the actor, resource and IP address. Supports a free text search.
+- **Audit logs**: administrative actions in the organization, with the actor, resource and IP address. Supports filtering by user name, with partial or full name matching.
 
 **Review streams: optionally filtered to one or more repositories or users**
 

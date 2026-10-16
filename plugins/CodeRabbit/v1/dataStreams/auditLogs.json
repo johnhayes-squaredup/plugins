@@ -31,8 +31,9 @@
         {
             "type": "text",
             "name": "search",
-            "label": "Search",
-            "placeholder": "Enter text to search"
+            "label": "Search user name",
+            "placeholder": "Enter a user name",
+            "help": "Supports partial or full name matching"
         }
     ],
     "metadata": [
