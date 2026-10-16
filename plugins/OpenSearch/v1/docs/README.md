@@ -41,7 +41,7 @@ The defaults match the exporter's standard document layout and index names. If y
 
 | Field | What it is | Where to find it | Required |
 | ----- | ---------- | ---------------- | -------- |
-| **Instance URL** | The base URL of the OpenSearch REST API, including the scheme and port, for example `https://opensearch.example.com:9200`. | The address clients use to connect to the cluster. For Amazon OpenSearch Service, the domain endpoint in the AWS console. | Yes |
+| **Instance URL** | The base URL of the OpenSearch REST API, including the scheme and port, for example `https://opensearch.example.com:9200`. Use `https://` whenever the plugin sends credentials, as `http://` sends them unencrypted. | The address clients use to connect to the cluster. For Amazon OpenSearch Service, the domain endpoint in the AWS console. | Yes |
 | **Authentication** | How the plugin signs in: **Username and password**, **API key**, or **No authentication** for a cluster with the Security plugin disabled. | — | Yes |
 | **Username** | The OpenSearch user the plugin signs in as. | OpenSearch Dashboards → **Security → Internal users**. | When using username and password |
 | **Password** | The password for that user. | Set when the user is created. | When using username and password |
@@ -53,7 +53,7 @@ The defaults match the exporter's standard document layout and index names. If y
 | **Timestamp field** | The log record's date field. Defaults to `@timestamp`. | As above. | When importing services |
 | **Severity number field** | The numeric OpenTelemetry SeverityNumber field. Defaults to `severity.number`. | As above. | When importing services |
 
-When you save, the plugin checks it can connect and authenticate by reading the cluster's name and version. A failure means the URL is unreachable (from the relay agent, if you selected one), the credentials are wrong, or the certificate is not trusted. A second check reads cluster health. If only that check fails, search works but the user is missing the monitoring permissions above.
+When you save, the plugin checks it can connect and authenticate by reading the cluster's name and version. A failure means the URL is unreachable (from the relay agent, if you selected one), the credentials are wrong, or the certificate is not trusted. A second check reads cluster health; if it fails, the user is missing the monitoring permissions above. Neither check tests search, which needs read permission on the indices you query.
 
 ## What this plugin monitors
 

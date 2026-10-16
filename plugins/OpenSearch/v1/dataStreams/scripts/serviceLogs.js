@@ -17,7 +17,10 @@ const severityName = (n) => {
     return ['Trace', 'Debug', 'Info', 'Warn', 'Error', 'Fatal'][Math.min(Math.floor((n - 1) / 4), 5)];
 };
 
-const serviceField = '{{ (dataSource.otelServiceField || "resource.service.name.keyword").replace(/[.]keyword$/, "") }}';
+// Date fields can be stored as epoch milliseconds as well as ISO strings
+const isoTimestamp = (v) => (typeof v === 'number' ? new Date(v).toISOString() : v);
+
+const serviceField ='{{ (dataSource.otelServiceField || "resource.service.name.keyword").replace(/[.]keyword$/, "") }}';
 const timestampField = '{{ dataSource.otelTimestampField || "@timestamp" }}';
 const severityField = '{{ dataSource.otelSeverityField || "severity.number" }}';
 
@@ -25,7 +28,7 @@ result = ((data && data.hits && data.hits.hits) || []).map((hit) => {
     const doc = hit._source || {};
     const body = get(doc, 'body');
     return {
-        timestamp: get(doc, timestampField),
+        timestamp: isoTimestamp(get(doc, timestampField)),
         service: get(doc, serviceField),
         severity: severityName(get(doc, severityField)),
         message: typeof body === 'string' ? body : JSON.stringify(body),

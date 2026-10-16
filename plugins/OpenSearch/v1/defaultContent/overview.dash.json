@@ -225,7 +225,7 @@
                 "config": {
                     "_type": "tile/data-stream",
                     "title": "Indices",
-                    "description": "Open non-system indices",
+                    "description": "Non-system indices",
                     "activePluginConfigIds": [
                         "{{configId}}"
                     ],
@@ -267,7 +267,7 @@
                 "config": {
                     "_type": "tile/data-stream",
                     "title": "Total Documents",
-                    "description": "Documents across all open indices",
+                    "description": "Documents across all non-system indices",
                     "activePluginConfigIds": [
                         "{{configId}}"
                     ],
@@ -312,7 +312,7 @@
                 "config": {
                     "_type": "tile/data-stream",
                     "title": "Index Health",
-                    "description": "Indices grouped by health",
+                    "description": "Health of each non-system index",
                     "activePluginConfigIds": [
                         "{{configId}}"
                     ],

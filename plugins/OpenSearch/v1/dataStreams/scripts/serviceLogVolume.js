@@ -5,7 +5,8 @@ const timeBuckets = (data && data.aggregations && data.aggregations.overTime && 
 result = timeBuckets.flatMap((t) =>
     ((t.services && t.services.buckets) || []).flatMap((s) =>
         ((s.severity && s.severity.buckets) || []).map((r) => ({
-            timestamp: t.key_as_string,
+            // key is always epoch milliseconds; key_as_string follows the field's mapping format
+            timestamp: typeof t.key === 'number' ? new Date(t.key).toISOString() : t.key_as_string,
             service: String(s.key),
             severity: r.key,
             logs: r.doc_count

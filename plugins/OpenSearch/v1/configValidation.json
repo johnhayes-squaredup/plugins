@@ -11,7 +11,7 @@
             "displayName": "Check cluster monitoring access",
             "dataStream": { "name": "clusterHealth" },
             "required": false,
-            "error": "Could not read cluster health. If the connection check passed, the user can search but needs the readall_and_monitor role (or equivalent monitoring permissions) for the cluster, node and index data streams.",
+            "error": "Could not read cluster health. The cluster, node and index data streams need the readall_and_monitor role or equivalent monitoring permissions. Searching needs read permission on the indices queried, which this check does not test.",
             "success": "Cluster monitoring permissions confirmed."
         }
     ]

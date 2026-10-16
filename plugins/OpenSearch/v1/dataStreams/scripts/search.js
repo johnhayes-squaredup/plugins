@@ -25,7 +25,8 @@ if (aggregations && Object.keys(aggregations).length > 0) {
         result = agg.values; // percentiles with keyed: false
     } else if (agg.values) {
         result = [agg.values];
-    } else if (agg.value) {
+    } else if ('value' in agg) {
+        // Single-value metrics; a zero or null (no documents) value keeps the same row shape
         result = [{ value: agg.value }];
     } else {
         result = [agg];
