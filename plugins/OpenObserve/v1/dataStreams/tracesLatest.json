@@ -66,6 +66,21 @@
             "shape": "number"
         },
         {
+            "name": "serviceCount",
+            "displayName": "Service Count",
+            "shape": "number"
+        },
+        {
+            "name": "services",
+            "displayName": "Services",
+            "shape": "string"
+        },
+        {
+            "name": "models",
+            "displayName": "Models",
+            "shape": "string"
+        },
+        {
             "name": "trace_id",
             "displayName": "Trace ID",
             "valueExpression": "{{ $['traceUrl'] }}",
