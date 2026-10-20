@@ -110,39 +110,6 @@
                 }
             },
             {
-                "i": "9a0da9ec-2a4a-468a-b1d9-c2533a1c2a92",
-                "x": 3,
-                "y": 0,
-                "w": 1,
-                "h": 2,
-                "moved": false,
-                "static": false,
-                "z": 0,
-                "config": {
-                    "_type": "tile/data-stream",
-                    "title": "Functions",
-                    "description": "",
-                    "timeframe": "none",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "dataStream": {
-                        "id": "{{dataStreams.functions}}",
-                        "name": "functions",
-                        "pluginConfigId": "{{configId}}",
-                        "group": { "by": [], "aggregate": [{ "type": "count" }] }
-                    },
-                    "visualisation": {
-                        "type": "data-stream-scalar",
-                        "config": {
-                            "data-stream-scalar": {
-                                "value": "count",
-                                "comparisonColumn": "none",
-                                "label": "Functions"
-                            }
-                        }
-                    }
-                }
-            },
-            {
                 "i": "c3bca13c-1d96-418a-8f02-ec97f411ce53",
                 "x": 0,
                 "y": 2,
@@ -314,39 +281,6 @@
                                     "stats.compressed_size"
                                 ],
                                 "hiddenColumns": ["schema", "settings"]
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "i": "c8e574cb-5c34-4330-b081-688f62b85f2d",
-                "x": 0,
-                "y": 7,
-                "w": 4,
-                "h": 3,
-                "moved": false,
-                "static": false,
-                "z": 0,
-                "config": {
-                    "_type": "tile/data-stream",
-                    "title": "Functions",
-                    "description": "VRL functions defined in the organization",
-                    "timeframe": "none",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "dataStream": {
-                        "id": "{{dataStreams.functions}}",
-                        "name": "functions",
-                        "pluginConfigId": "{{configId}}",
-                        "sort": { "by": [["stream_name", "asc"]] }
-                    },
-                    "visualisation": {
-                        "type": "data-stream-table",
-                        "config": {
-                            "data-stream-table": {
-                                "transpose": false,
-                                "columnOrder": ["stream_name", "name", "num_args", "function"],
-                                "hiddenColumns": ["order", "trans_type"]
                             }
                         }
                     }
