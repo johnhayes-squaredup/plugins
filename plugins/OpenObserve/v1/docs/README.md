@@ -48,7 +48,7 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Search** — records matching a user-supplied SQL query against one stream; scoped to a stream.
 - **Logs Search** — records matching a user-supplied SQL query against any log stream, without picking a stream first; account-wide.
 - **Stream Field Values** — the most common values for chosen fields in one stream; scoped to a stream.
-- **Traces Latest** — recent traces within a time range, with a span count and a link to view each trace in OpenObserve; scoped to a trace stream.
+- **Traces Latest** — recent traces within a time range, with a span count and a link to view each trace in OpenObserve; scoped to a trace stream. An optional **Bucket interval** (e.g. `5m`) switches it to one row per time bucket (trace count plus avg/min/max duration) for charting finer than the tile editor's own hourly minimum.
 - **Metrics Query** — time series data matching a PromQL query; account-wide.
 - **Simple Metrics Query** — time series data for a metric, built from a guided picker (metric → label → values → aggregation) instead of hand-written PromQL; account-wide.
 - **Metric Names**, **Metric Labels**, **Label Values** — back the Simple Metrics Query picker's cascading dropdowns; hidden from the tile editor.
@@ -73,4 +73,5 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Pipeline History's time-range unit is unverified** — this plugin sends microseconds, matching every other timed endpoint in this plugin, but it couldn't be confirmed against real pipeline-run data; if the tile returns no rows despite a pipeline having run recently, this is worth rechecking.
 - **Traces Latest only applies to trace-type streams** — it isn't included on the Stream perspective dashboard (which covers all three stream types); add it manually on a dashboard scoped to a trace stream.
 - **Traces Latest's "View Trace" link format is unverified** — it's built from OpenObserve's documented `/web/traces/trace-details` route (`org_identifier`, `stream`, `trace_id`, `from`, `to` query params, with `from`/`to` in microseconds), but this plugin was built without being able to click through and confirm the link actually opens the right trace. If it doesn't resolve correctly, this is the first thing to check.
+- **Traces Latest's Bucket interval only buckets the traces actually fetched** — it doesn't change how many traces the API returns, only **Max rows**. On a high-volume trace stream, a short bucket width (e.g. `1m`) may need a correspondingly larger **Max rows** to see more than one or two buckets, which risks the response-size limit above — there's a real trade-off between bucket granularity and how much time the buckets actually cover.
 - **Read-only** — the plugin never creates, modifies, or deletes anything in OpenObserve.

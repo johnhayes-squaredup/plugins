@@ -31,6 +31,13 @@
             "type": "text",
             "name": "filter",
             "label": "Filter (optional)"
+        },
+        {
+            "type": "text",
+            "name": "bucketInterval",
+            "label": "Bucket interval (optional)",
+            "placeholder": "e.g. 5m, 15m, 1h",
+            "help": "Leave blank to return one row per trace. Set to a width like `5m` or `1h` to return one row per time bucket instead, with a trace count and duration stats — useful for charting trace volume at a finer granularity than the tile editor's own Group-by buckets support (hourly is the finest native option)."
         }
     ],
     "metadata": [
@@ -41,24 +48,38 @@
         {
             "name": "startTime",
             "displayName": "Start Time",
-            "computed": true,
             "role": "timestamp",
-            "shape": "date",
-            "valueExpression": "{{ $['start_time'] / 1000000 }}"
+            "shape": "date"
         },
         {
             "name": "endTime",
             "displayName": "End Time",
-            "computed": true,
-            "shape": "date",
-            "valueExpression": "{{ $['end_time'] / 1000000 }}"
+            "shape": "date"
         },
         {
             "name": "durationMs",
             "displayName": "Duration (ms)",
-            "computed": true,
-            "shape": "milliseconds",
-            "valueExpression": "{{ $['duration'] / 1000 }}"
+            "shape": "milliseconds"
+        },
+        {
+            "name": "traceCount",
+            "displayName": "Trace Count",
+            "shape": "number"
+        },
+        {
+            "name": "avgDurationMs",
+            "displayName": "Avg Duration (ms)",
+            "shape": "milliseconds"
+        },
+        {
+            "name": "minDurationMs",
+            "displayName": "Min Duration (ms)",
+            "shape": "milliseconds"
+        },
+        {
+            "name": "maxDurationMs",
+            "displayName": "Max Duration (ms)",
+            "shape": "milliseconds"
         },
         {
             "name": "spanCount",
