@@ -32,9 +32,10 @@
         }
     ],
     "metadata": [
-        { "name": "labels", "displayName": "Labels", "shape": "string" },
+        { "name": "name", "displayName": "Name", "shape": "string", "role": "label" },
         { "name": "timestamp", "displayName": "Timestamp", "shape": "date", "role": "timestamp" },
-        { "name": "value", "displayName": "Value", "shape": "number" }
+        { "name": "value", "displayName": "Value", "shape": "number" },
+        { "pattern": ".*" }
     ],
     "timeframes": true
 }

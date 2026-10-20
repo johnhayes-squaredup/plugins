@@ -130,9 +130,10 @@
     ],
     "metadata": [
         {
-            "name": "labels",
-            "displayName": "Labels",
-            "shape": "string"
+            "name": "name",
+            "displayName": "Name",
+            "shape": "string",
+            "role": "label"
         },
         {
             "name": "timestamp",
@@ -144,7 +145,8 @@
             "name": "value",
             "displayName": "Value",
             "shape": "number"
-        }
+        },
+        { "pattern": ".*" }
     ],
     "timeframes": true
 }
