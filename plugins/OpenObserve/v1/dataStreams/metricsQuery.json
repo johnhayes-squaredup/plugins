@@ -18,9 +18,10 @@
     "matches": "none",
     "ui": [
         {
-            "type": "text",
+            "type": "code",
             "name": "promql",
             "label": "PromQL Query",
+            "language": "promql",
             "placeholder": "up or rate(http_requests_total[5m])",
             "validation": { "required": true }
         },
