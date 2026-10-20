@@ -31,7 +31,7 @@ On save, the plugin validates these by fetching your organization's stream list;
 
 - **Streams** — logs, metrics, and trace streams registered in your organization, with document counts, storage size, schema, and settings.
 - **Search** — ad hoc SQL queries against a stream's raw log, metric, or trace records, and the most common values for chosen fields.
-- **Metrics** — PromQL range queries against metrics ingested into OpenObserve.
+- **Metrics** — PromQL range queries against metrics ingested into OpenObserve, including a guided metric/label/value picker for building a query without writing PromQL.
 - **Traces** — recent trace spans within a time range, for an individual trace stream.
 - **Functions** — VRL data-transformation functions defined in the organization.
 - **Pipelines** — data-transformation pipelines and their execution history.
@@ -50,6 +50,8 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Stream Field Values** — the most common values for chosen fields in one stream; scoped to a stream.
 - **Traces Latest** — recent traces within a time range, with a span count and a link to view each trace in OpenObserve; scoped to a trace stream.
 - **Metrics Query** — time series data matching a PromQL query; account-wide.
+- **Simple Metrics Query** — time series data for a metric, built from a guided picker (metric → label → values → aggregation) instead of hand-written PromQL; account-wide.
+- **Metric Names**, **Metric Labels**, **Label Values** — back the Simple Metrics Query picker's cascading dropdowns; hidden from the tile editor.
 - **Pipelines** — data-transformation pipelines defined in the organization, with node/edge counts and last error; account-wide.
 - **Pipeline History** — pipeline execution history within a time range; account-wide.
 - **Incidents** — alert incidents, with status, severity, and timestamps; account-wide.
@@ -67,7 +69,7 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Cluster Info requires a clustered deployment** — on a standalone single-node OpenObserve instance (the common self-hosted setup) this endpoint returns a 404; the plugin surfaces this as a clear message rather than raw error, and no default dashboard tile uses it. Clustered deployments can add their own tile.
 - **Incident Stats may not be available on your deployment** — this endpoint returned "Not Supported" on the instance this plugin was tested against, likely an edition/license gate; the plugin surfaces this as a clear message, and no default dashboard tile uses it.
 - **Search and Logs Search require the stream name typed manually** — the SQL's `FROM` clause isn't auto-filled; default tiles ship with placeholder/example SQL that may need editing to match your streams.
-- **Very broad search timeframes may exceed the platform's response size limit** — narrow the timeframe or reduce **Max rows** if a Search, Logs Search, or Traces Latest tile fails to load.
+- **Very broad search timeframes may exceed the platform's response size limit** — narrow the timeframe or reduce **Max rows** if a Search, Logs Search, or Traces Latest tile fails to load. A Simple Metrics Query or Metrics Query with no label filter can hit the same limit on a high-cardinality metric over a wide timeframe — add a label filter or narrow the timeframe.
 - **Pipeline History's time-range unit is unverified** — this plugin sends microseconds, matching every other timed endpoint in this plugin, but it couldn't be confirmed against real pipeline-run data; if the tile returns no rows despite a pipeline having run recently, this is worth rechecking.
 - **Traces Latest only applies to trace-type streams** — it isn't included on the Stream perspective dashboard (which covers all three stream types); add it manually on a dashboard scoped to a trace stream.
 - **Traces Latest's "View Trace" link format is unverified** — it's built from OpenObserve's documented `/web/traces/trace-details` route (`org_identifier`, `stream`, `trace_id`, `from`, `to` query params, with `from`/`to` in microseconds), but this plugin was built without being able to click through and confirm the link actually opens the right trace. If it doesn't resolve correctly, this is the first thing to check.
