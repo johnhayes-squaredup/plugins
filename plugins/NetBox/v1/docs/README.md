@@ -77,7 +77,7 @@ The plugin works with **NetBox Community**, **NetBox Enterprise**, and **NetBox 
   - Build and test queries in NetBox's GraphiQL explorer at `https://<your-netbox>/graphql/`.
   - Add `pagination: { limit: 1000, offset: 0 }` to lists that may be longer than 1,000 items.
 
-**Tags.** Sites, Racks, Devices, Virtual Machines, Prefixes, IP Addresses, VLAN Groups, Circuits and Power Feeds have a **Tags** column (tag names, comma-separated) and an optional **Tag(s)** filter. When several tags are selected, only objects that have all of them are returned.
+**Tags.** Sites, Racks, Devices, Virtual Machines, Prefixes, IP Addresses, VLAN Groups, Circuits and Power Feeds have a **Tags** column and an optional **Tag(s)** filter. When several tags are selected, only objects that have all of them are returned.
 
 **Selected objects and Collections.** Sites, Racks, Devices, Virtual Machines, Prefixes and Circuits also have an optional object filter (**Site(s)**, **Rack(s)**, **Device(s)**, **Virtual machine(s)**, **Prefix(es)**, **Circuit(s)**). It returns only the selected objects, read live from NetBox, including their custom fields and tags. To show a whole Collection, add a dashboard variable based on the Collection, allow multiple selection, default it to all objects, and bind the filter to that variable.
 
@@ -94,7 +94,7 @@ The plugin works with **NetBox Community**, **NetBox Enterprise**, and **NetBox 
 
 Each object is identified by its NetBox ID and keeps key properties such as status, site, role and tenant. Each also keeps a link back to the object in NetBox.
 
-Each object also keeps its NetBox tags in the **netboxTags** property, as comma-separated tag names (for example `Core, Production`). To build a Collection from one tag, search the objects with `netboxTags:"<tag name>"`, for example `netboxTags:"Production"`. Then bind that Collection to the matching list stream's object filter (see **Selected objects and Collections** above) to see the live custom fields of every object in it.
+Each object also keeps its NetBox tags in the **netboxTags** property, with one value per tag. To build a Collection from a tag, filter the objects on **NetboxTags** and pick the tag. Then bind that Collection to the matching list stream's object filter (see **Selected objects and Collections** above) to see the live custom fields of every object in it.
 
 Imports run every 12 hours by default. Dashboard tiles query NetBox live, but SquaredUp caches results briefly, so use the dashboard's refresh button to see a change straight away.
 
@@ -117,9 +117,7 @@ Imports run every 12 hours by default. Dashboard tiles query NetBox live, but Sq
 - **Site map.**
   - Sites appear on the Data Centers map only if their latitude and longitude are set in NetBox. NetBox doesn't convert addresses into coordinates.
   - The map uses SmartViz Geo Map. Until it's available in your SquaredUp region, the tile shows a table of sites instead.
-- **Tags on imported objects.**
-  - **netboxTags** holds all of an object's tags as one value, so the **NetboxTags** filter in the Collection editor lists tag combinations rather than single tags. Use the `netboxTags:"<tag name>"` search to select one tag.
-  - Tag changes appear on objects after the next import. The **Tags** column is always live.
+- **Tags on imported objects.** Tag changes appear on objects after the next import. The **Tags** column is always live.
 - **Custom fields.**
   - They aren't indexed, so they can't be used to build Collections or scopes. Use tags to group objects, and the object filters to show custom fields for a Collection.
   - Select, multi-select and object custom fields appear as several columns (for example the value and the label, or the object's ID, name and link). Hide the ones you don't need in the tile.
