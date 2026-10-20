@@ -1,6 +1,6 @@
-Monitor your self-hosted [OpenObserve](https://openobserve.ai) instance in SquaredUp — streams, log/metric/trace search, functions, pipelines, incidents, and cluster health — via the [OpenObserve API](https://openobserve.ai/docs/reference/api/).
+Monitor your self-hosted [OpenObserve](https://openobserve.ai) instance in SquaredUp — streams, log/metric/trace search, pipelines, incidents, SLOs, and cluster health — via the [OpenObserve API](https://openobserve.ai/docs/reference/api/).
 
-> ⚠️ This plugin covers self-hosted OpenObserve only, and only the **Streams**, **Search**, **Functions**, **Cluster**, **Metrics**, **Traces**, **Pipelines**, and **Incidents** API areas — it does not cover OpenObserve Cloud, ingestion, dashboards, reports, or user management.
+> ⚠️ This plugin covers self-hosted OpenObserve only, and only the **Streams**, **Search**, **Cluster**, **Metrics**, **Traces**, **Pipelines**, **Incidents**, and **SLOs** API areas — it does not cover OpenObserve Cloud, ingestion, dashboards, reports, or user management.
 
 ## Setup
 
@@ -30,12 +30,12 @@ On save, the plugin validates these by fetching your organization's stream list;
 ## What this plugin monitors
 
 - **Streams** — logs, metrics, and trace streams registered in your organization, with document counts, storage size, schema, and settings.
-- **Search** — ad hoc SQL queries against a stream's raw log, metric, or trace records, and the most common values for chosen fields.
+- **Search** — ad hoc SQL queries against a stream's raw log, metric, or trace records.
 - **Metrics** — PromQL range queries against metrics ingested into OpenObserve, including a guided metric/label/value picker for building a query without writing PromQL.
 - **Traces** — recent trace spans within a time range, for an individual trace stream.
-- **Functions** — VRL data-transformation functions defined in the organization.
 - **Pipelines** — data-transformation pipelines and their execution history.
 - **Incidents** — alert incidents (groups of correlated alerts) and summary statistics.
+- **SLOs** — Service Level Objectives, with current status (SLI, coverage, error budget remaining, burn rate).
 - **Cluster health** — pending compaction jobs per region/node, for clustered OpenObserve deployments.
 
 The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream** perspective for drilling into an individual stream.
@@ -44,10 +44,8 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 
 - **Streams** — streams of a chosen type (logs/metrics/traces), with name, document count, and size; account-wide. Backs import and is hidden from the tile editor.
 - **Stream Details** — streams of a chosen type (logs/metrics/traces), with document counts, storage size, schema, and settings; account-wide.
-- **Functions** — VRL functions defined in the organization; account-wide.
 - **Search** — records matching a user-supplied SQL query against one stream; scoped to a stream.
 - **Logs Search** — records matching a user-supplied SQL query against any log stream, without picking a stream first; account-wide.
-- **Stream Field Values** — the most common values for chosen fields in one stream; scoped to a stream.
 - **Traces Latest** — recent traces within a time range, with a span count and a link to view each trace in OpenObserve; scoped to a trace stream. An optional **Bucket interval** (e.g. `5m`) switches it to one row per time bucket (trace count plus avg/min/max duration) for charting finer than the tile editor's own hourly minimum.
 - **Metrics Query** — time series data matching a PromQL query; account-wide.
 - **Simple Metrics Query** — time series data for a metric, built from a guided picker (metric → label → values → aggregation) instead of hand-written PromQL; account-wide.
@@ -56,6 +54,7 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Pipeline History** — pipeline execution history within a time range; account-wide.
 - **Incidents** — alert incidents, with status, severity, and timestamps; account-wide.
 - **Incident Stats** — summary statistics for alert incidents; account-wide. May not be available on all self-hosted deployments (see Known limitations).
+- **SLOs** — Service Level Objectives with current status (SLI, coverage, error budget remaining, burn rate); account-wide. Optional **Folder** filter.
 - **Cluster Info** — pending compaction jobs per region/node; account-wide. Only returns data on a clustered OpenObserve deployment (see Known limitations).
 
 ## What gets indexed
@@ -74,4 +73,6 @@ The out-of-the-box dashboards include an org-wide **Overview** plus a **Stream**
 - **Traces Latest only applies to trace-type streams** — it isn't included on the Stream perspective dashboard (which covers all three stream types); add it manually on a dashboard scoped to a trace stream.
 - **Traces Latest's "View Trace" link format is unverified** — it's built from OpenObserve's documented `/web/traces/trace-details` route (`org_identifier`, `stream`, `trace_id`, `from`, `to` query params, with `from`/`to` in microseconds), but this plugin was built without being able to click through and confirm the link actually opens the right trace. If it doesn't resolve correctly, this is the first thing to check.
 - **Traces Latest's Bucket interval only buckets the traces actually fetched** — it doesn't change how many traces the API returns, only **Max rows**. On a high-volume trace stream, a short bucket width (e.g. `1m`) may need a correspondingly larger **Max rows** to see more than one or two buckets, which risks the response-size limit above — there's a real trade-off between bucket granularity and how much time the buckets actually cover.
+- **SLOs show blank status figures until first measured, or when stale** — SLI, burn rate, error budget remaining, and the watermark/measuring-since timestamps are intentionally blank (not zero) when **No Data** is true, matching OpenObserve's own UI — a brand-new or stalled SLO isn't the same as one measured at 0%.
+- **SLO per-group status isn't covered** — only the overall SLO list with its top-level status; drilling into a grouped SLO's per-group breakdown isn't implemented.
 - **Read-only** — the plugin never creates, modifies, or deletes anything in OpenObserve.
