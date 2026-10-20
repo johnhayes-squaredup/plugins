@@ -14,7 +14,7 @@
             { "key": "from", "value": "{{from || 0}}" },
             { "key": "size", "value": "{{size || 50}}" }
         ],
-        "pathToData": "hits"
+        "postRequestScript": "pipelineHistory.js"
     },
     "matches": "none",
     "ui": [
@@ -43,16 +43,15 @@
             "name": "timestamp",
             "displayName": "Timestamp",
             "shape": "date",
-            "role": "timestamp",
-            "valueExpression": "{{ $['timestamp'] / 1000 }}"
+            "role": "timestamp"
         },
         { "name": "is_realtime", "displayName": "Is Realtime", "shape": "boolean" },
         { "name": "is_silenced", "displayName": "Is Silenced", "shape": "boolean" },
         { "name": "retries", "displayName": "Retries", "shape": "number" },
-        { "name": "delay_in_secs", "displayName": "Delay (s)", "shape": "number" },
+        { "name": "delay_in_secs", "displayName": "Delay", "shape": "seconds" },
         { "name": "error", "displayName": "Error", "shape": "string" },
-        { "name": "evaluation_took_in_secs", "displayName": "Evaluation Took (s)", "shape": "number" },
-        { "name": "query_took", "displayName": "Query Took", "shape": "number" },
+        { "name": "evaluation_took_in_secs", "displayName": "Evaluation Took", "shape": "seconds" },
+        { "name": "query_took", "displayName": "Query Took (ms, estimated)", "shape": "milliseconds" },
         { "name": "source_node", "displayName": "Source Node", "shape": "string" }
     ],
     "timeframes": true
