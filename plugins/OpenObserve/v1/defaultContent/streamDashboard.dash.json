@@ -89,44 +89,6 @@
                         }
                     }
                 }
-            },
-            {
-                "i": "192d3b53-6e6f-4f66-9574-0d6e37174ff6",
-                "x": 0,
-                "y": 3,
-                "w": 4,
-                "h": 3,
-                "moved": false,
-                "static": false,
-                "z": 0,
-                "config": {
-                    "_type": "tile/data-stream",
-                    "title": "Field Values",
-                    "description": "Top values for the configured field(s) — edit the field list in the tile's parameters",
-                    "activePluginConfigIds": ["{{configId}}"],
-                    "dataStream": {
-                        "id": "{{dataStreams.streamFieldValues}}",
-                        "name": "streamFieldValues",
-                        "pluginConfigId": "{{configId}}",
-                        "dataSourceConfig": { "fields": "_timestamp" },
-                        "sort": { "by": [["count", "desc"]] }
-                    },
-                    "scope": {
-                        "scope": "{{scopes.[Streams]}}",
-                        "workspace": "{{workspaceId}}",
-                        "variable": "{{variables.[Stream]}}"
-                    },
-                    "variables": ["{{variables.[Stream]}}"],
-                    "visualisation": {
-                        "type": "data-stream-table",
-                        "config": {
-                            "data-stream-table": {
-                                "transpose": false,
-                                "columnOrder": ["field", "value", "count"]
-                            }
-                        }
-                    }
-                }
             }
         ]
     }
