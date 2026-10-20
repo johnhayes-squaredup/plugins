@@ -15,6 +15,8 @@ result = (data.list || []).map((p) => {
         paused_at: p.paused_at != null ? p.paused_at : null,
         last_error: p.last_error != null ? JSON.stringify(p.last_error) : null,
         source: p.source != null ? JSON.stringify(p.source) : null,
+        sourceStreamName: (p.source && p.source.stream_name) || "",
+        sourceStreamType: (p.source && p.source.stream_type) || "",
         nodeCount: nodes.length,
         edgeCount: edges.length,
     };

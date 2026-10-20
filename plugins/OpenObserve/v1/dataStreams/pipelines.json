@@ -19,6 +19,8 @@
         { "name": "paused_at", "displayName": "Paused At", "shape": "number" },
         { "name": "last_error", "displayName": "Last Error", "shape": "json" },
         { "name": "source", "displayName": "Source", "shape": "json" },
+        { "name": "sourceStreamName", "displayName": "Source Stream Name", "shape": "string" },
+        { "name": "sourceStreamType", "displayName": "Source Stream Type", "shape": "string" },
         { "name": "nodeCount", "displayName": "Node Count", "shape": "number" },
         { "name": "edgeCount", "displayName": "Edge Count", "shape": "number" }
     ],
