@@ -28,7 +28,7 @@
             "label": "SQL Query",
             "help": "The stream name isn't auto-substituted — type it yourself in the FROM clause, e.g. SELECT * FROM \"default\" LIMIT 100. This stream searches logs only.",
             "placeholder": "SELECT * FROM \"default\" LIMIT 100",
-            "required": true
+            "validation": { "required": true }
         },
         {
             "type": "number",

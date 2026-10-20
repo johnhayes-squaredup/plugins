@@ -21,8 +21,8 @@
             "type": "text",
             "name": "promql",
             "label": "PromQL Query",
-            "required": true,
-            "placeholder": "up or rate(http_requests_total[5m])"
+            "placeholder": "up or rate(http_requests_total[5m])",
+            "validation": { "required": true }
         },
         {
             "type": "text",
