@@ -40,7 +40,7 @@
                 "type": { "value": "TeamDynamix Location" },
                 "properties": [
                     "city",
-                    "state",
+                    { "region": "state" },
                     "country",
                     "address",
                     "latitude",

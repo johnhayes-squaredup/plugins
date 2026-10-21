@@ -62,8 +62,7 @@
                     "value": "application/json"
                 }
             ],
-            "queryArgs": [],
-            "ignoreCertificateErrors": "{{ignoreCertificateErrors}}"
+            "queryArgs": []
         }
     }
 }
