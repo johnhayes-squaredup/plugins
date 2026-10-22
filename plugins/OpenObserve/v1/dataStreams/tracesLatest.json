@@ -109,5 +109,5 @@
         },
         { "pattern": ".*" }
     ],
-    "timeframes": true
+    "timeframes": ["last1hour"]
 }
