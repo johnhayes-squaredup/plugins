@@ -101,6 +101,14 @@ Example cell (a shaped currency value):
 { "raw": "1234.567", "value": 1234.57, "formatted": "$1,234.57" }
 ```
 
+Example cell (a [list column](data-streams.md#list-columns-array-shape), `"shape": ["array", { "itemShape": "string" }]`):
+
+```json
+{ "raw": ["devops", "cli"], "value": ["devops", "cli"], "formatted": "devops, cli" }
+```
+
+For a list column, check `value`, not `formatted`. `formatted` is always the members joined with `, ` for display, so a plain string there is expected. `value` must be an array (its column's `shapeName` is `shape_array`). If `value` is the JSON string `"[\"devops\",\"cli\"]"`, the column is missing the `array` shape, or every member is an object that needs mapping to a primitive first. Fix the shape. Don't join the members in the script.
+
 `data` is **absent** when shaping produced nothing (e.g. the request errored). `test` sets a non-zero exit code when any request errored — inspect the error and the `[Response] Body`, fix the stream, and re-test.
 
 ### Zooming in

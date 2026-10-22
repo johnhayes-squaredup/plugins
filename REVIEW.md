@@ -95,6 +95,7 @@ When suggesting changes:
 - timeframe - Data streams that don't support time-based filtering must explicitly declare `"none"` as an available timeframe. Omitting this causes UI warnings and incorrect default behaviour in OOB dashboards.
 - Numeric values - Return raw numeric values rather than pre-formatted strings (e.g. return `1234.56` not `"£1,234.56"`). Use column format expressions in dashboards for display formatting.
 - Column shapes - Use the `bytes` shape for columns representing byte sizes; SquaredUp will automatically display the most appropriate unit (e.g. 4.2 GB). Check for other applicable semantic shapes such as `timestamp` and `duration`.
+- List values - A column holding several values (tags, topics, addresses) uses `"shape": ["array", { "itemShape": "<shape>" }]`, not a comma-joined string, and not a second display column alongside it. An `objectPropertyPath` column reading a list property declares the same shape.
 - Timestamps - SquaredUp expects ISO 8601 strings for timestamp columns. If the upstream API returns Unix timestamps, the script must convert them.
 - Expressions - Where a transformation can be expressed using `map`, prefer it over a mustache-style value expression, or complex processing in a script for performance.
 - Deduplication - If multiple data streams share the same API endpoint and differ only by a filter, consider merging them into a single stream with a UI parameter to control the filter.
