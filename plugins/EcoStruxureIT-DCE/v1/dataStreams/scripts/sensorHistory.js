@@ -12,7 +12,9 @@
 // IDs to start from, so they run in two steps using nextUrl paging: the first request lists the
 // device's sensors, and this script picks out the wanted ones (those matching the sensorName and
 // kind parameters, or else the environmental ones) and returns their history URL as the next page.
-// The second request is then an ordinary history request. Two small calls per device stay well
+// The second request is then an ordinary history request. DCE doesn't page either response (each
+// is one complete array), so the stream's nextPageUrl path never matches anything and this script's
+// pagingContext is the only "next page" there is. Two small calls per device stay well
 // inside DCE's rate limit, unlike importing every sensor, which is too slow and too large on big
 // installations.
 const MAX_ROWS = 20000;
