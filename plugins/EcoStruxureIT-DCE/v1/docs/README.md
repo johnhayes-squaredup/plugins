@@ -52,6 +52,8 @@ To check the username and password independently of SquaredUp, run this in Power
 curl.exe -k -X POST "https://<your-dce-server>/isxg/oauth/token" -d "grant_type=password" -d "username=<username>" --data-urlencode "password=<password>"
 ```
 
+`-k` turns off certificate verification, matching **Ignore certificate errors**, so the check works against Data Center Expert's default self-signed certificate. If the server has a certificate the relay agent machine trusts, leave out `-k` so the certificate is checked too. If you have the server's certificate (or the CA that issued it) as a file, use `--cacert <file>` instead of `-k`.
+
 #### If sign-in fails with valid credentials
 
 The plugin gets a short-lived access token from `https://<server>/isxg/oauth/token` using the username and password, without an OAuth client. Some Data Center Expert versions may need an OAuth client ID and secret instead:
