@@ -323,7 +323,7 @@
                         "config": {
                             "data-stream-donut-chart": {
                                 "valueColumn": "count",
-                                "labelColumn": "severityText_uniqueValues",
+                                "labelColumn": "statusText_uniqueValues",
                                 "hideCenterValue": false,
                                 "showValuesAsPercentage": false,
                                 "legendPosition": "auto",
