@@ -46,13 +46,15 @@ If more than one relay agent is installed on the machine, each has its own insta
 | `Invalid URL` | The Server URL isn't a full address. Include `https://`. |
 | `429` | Data Center Expert's rate limit was reached. Wait a minute and rerun the tests. |
 
-To check the username and password independently of SquaredUp, run this in PowerShell on the relay agent machine. A reply containing `access_token` means the credentials work:
+To check the username and password independently of SquaredUp, run this in PowerShell 7 (`pwsh`) on the relay agent machine. It prompts for the username and password, so the password isn't typed into the command or saved in PowerShell's history. A reply showing an `access_token` means the credentials work:
 
 ```powershell
-curl.exe -k -X POST "https://<your-dce-server>/isxg/oauth/token" -d "grant_type=password" -d "username=<username>" --data-urlencode "password=<password>"
+$cred = Get-Credential -Message "Data Center Expert user"
+$body = @{ grant_type = "password"; username = $cred.UserName; password = $cred.GetNetworkCredential().Password }
+Invoke-RestMethod -Method Post -Uri "https://<your-dce-server>/isxg/oauth/token" -Body $body -SkipCertificateCheck
 ```
 
-`-k` turns off certificate verification, matching **Ignore certificate errors**, so the check works against Data Center Expert's default self-signed certificate. If the server has a certificate the relay agent machine trusts, leave out `-k` so the certificate is checked too. If you have the server's certificate (or the CA that issued it) as a file, use `--cacert <file>` instead of `-k`.
+`-SkipCertificateCheck` turns off certificate verification, matching **Ignore certificate errors**, so the check works against Data Center Expert's default self-signed certificate. If the server has a certificate the relay agent machine trusts, leave it out so the certificate is checked too. Windows PowerShell 5.1 doesn't have `-SkipCertificateCheck`, so there the check only works against a trusted certificate.
 
 #### If sign-in fails with valid credentials
 
