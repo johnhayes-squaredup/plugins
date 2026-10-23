@@ -39,6 +39,13 @@
             "label": "Repository"
         }
     ],
+    "screenshots": [
+        "https://github.com/squaredup/plugins/blob/main/plugins/EcoStruxureIT-DCE/v1/screenshots/data-center-overview.png",
+        "https://github.com/squaredup/plugins/blob/main/plugins/EcoStruxureIT-DCE/v1/screenshots/device-group.png",
+        "https://github.com/squaredup/plugins/blob/main/plugins/EcoStruxureIT-DCE/v1/screenshots/ups.png",
+        "https://github.com/squaredup/plugins/blob/main/plugins/EcoStruxureIT-DCE/v1/screenshots/rack-pdu.png",
+        "https://github.com/squaredup/plugins/blob/main/plugins/EcoStruxureIT-DCE/v1/screenshots/environmental.png"
+    ],
     "base": {
         "plugin": "WebAPI",
         "majorVersion": "1",
