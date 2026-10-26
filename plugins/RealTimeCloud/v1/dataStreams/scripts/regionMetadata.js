@@ -28,7 +28,14 @@ const parseCsv = (text) => {
         row.push(field);
         rows.push(row);
     }
+    if (quoted) throw new Error("Invalid CSV: unterminated quoted field");
+    if (!rows.length) throw new Error("Invalid CSV: empty response");
     const header = rows.shift().map((h) => h.trim());
+    const missing = ["cloud-provider", "cloud-region", "year"].filter(
+        (name) => !header.includes(name),
+    );
+    if (missing.length)
+        throw new Error(`Invalid CSV: missing columns ${missing.join(", ")}`);
     return rows.map((r) =>
         Object.fromEntries(header.map((h, i) => [h, (r[i] ?? "").trim()])),
     );
