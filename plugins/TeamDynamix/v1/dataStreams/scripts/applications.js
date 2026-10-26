@@ -15,8 +15,10 @@
 const ofKind = (app) => {
     const appClass = String(app.AppClass || "").toLowerCase();
     const type = String(app.Type || "").toLowerCase();
-    if (appClass === "tdtickets" || type.startsWith("ticket")) return "ticketing";
-    if (appClass === "tdassets" || type.startsWith("asset")) return "asset";
+    if (appClass === "tdtickets") return "ticketing";
+    if (appClass === "tdassets") return "asset";
+    if (type.startsWith("ticket")) return "ticketing";
+    if (type.startsWith("asset")) return "asset";
     return "other";
 };
 
