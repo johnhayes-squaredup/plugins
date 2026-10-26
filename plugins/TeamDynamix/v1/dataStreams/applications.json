@@ -37,5 +37,7 @@
         { "name": "sourceType", "displayName": "Imported As", "shape": "string" },
         { "name": "description", "displayName": "Description", "shape": "string" }
     ],
-    "timeframes": false
+    "timeframes": ["none"],
+    "supportsNoneTimeframe": true,
+    "defaultTimeframe": "none"
 }
