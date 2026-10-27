@@ -6,7 +6,7 @@
         "name": "@masokisi",
         "type": "community"
     },
-    "description": "Cloud region sustainability metadata for AWS, Azure, Google Cloud and Oracle Cloud Infrastructure — PUE, WUE, carbon-free energy and grid carbon intensity — from the Green Software Foundation Real Time Cloud project.",
+    "description": "Cloud region sustainability metadata — PUE, WUE, carbon-free energy and grid carbon intensity — from the Green Software Foundation Real Time Cloud project.",
     "category": "Analytics",
     "type": "cloud",
     "schemaVersion": "2.1",
