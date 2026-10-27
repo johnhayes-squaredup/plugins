@@ -213,7 +213,7 @@
                         "id": "datastream-sql",
                         "dataSourceConfig": {
                             "version": "2.0",
-                            "sql": "SELECT CAST(CAST(\"year\" AS INTEGER) AS VARCHAR) AS \"yearLabel\", \"provider\", ROUND(AVG(\"v\"), 0) AS \"avgGridCi\" FROM (SELECT \"h\".\"year\", \"h\".\"provider\", \"h\".\"gridCarbonIntensityConsumptionAnnual\" AS \"v\" FROM \"hist\" \"h\" UNION ALL SELECT \"e\".\"year\", \"e\".\"provider\", \"e\".\"gridCarbonIntensityConsumptionAnnual\" FROM \"est\" \"e\" WHERE \"e\".\"year\" > (SELECT MAX(\"h2\".\"year\") FROM \"hist\" \"h2\" WHERE \"h2\".\"provider\" = \"e\".\"provider\")) \"u\" GROUP BY \"year\", \"provider\" ORDER BY \"year\", \"provider\"",
+                            "sql": "SELECT CAST(CAST(\"year\" AS INTEGER) AS VARCHAR) AS \"yearLabel\", \"provider\", ROUND(AVG(\"v\"), 0) AS \"avgGridCi\" FROM (SELECT \"h\".\"year\", \"h\".\"provider\", \"h\".\"gridCarbonIntensityConsumptionAnnual\" AS \"v\" FROM \"hist\" \"h\" UNION ALL SELECT \"e\".\"year\", \"e\".\"provider\", \"e\".\"gridCarbonIntensityConsumptionAnnual\" FROM \"est\" \"e\" WHERE \"e\".\"year\" > (SELECT MAX(\"h2\".\"year\") FROM \"hist\" \"h2\" WHERE \"h2\".\"provider\" = \"e\".\"provider\")) \"u\" WHERE \"v\" IS NOT NULL GROUP BY \"year\", \"provider\" ORDER BY \"year\", \"provider\"",
                             "tables": [
                                 {
                                     "tableName": "hist",
