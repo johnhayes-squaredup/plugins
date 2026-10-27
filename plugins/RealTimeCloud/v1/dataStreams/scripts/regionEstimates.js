@@ -58,7 +58,7 @@ const unwrap = (v) => (Array.isArray(v) ? v[0] : v);
 const selected = (context.config && context.config.region) || [];
 const ids = new Set(selected.map((o) => unwrap(o.rawId)).filter(Boolean));
 
-result = parseCsv(response.body)
+result = parseCsv(typeof data === "string" ? data : response.body)
     .filter((r) => r["cloud-provider"] && r["cloud-region"])
     .filter(
         (r) =>

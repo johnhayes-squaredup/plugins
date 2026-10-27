@@ -58,7 +58,7 @@ const unwrap = (v) => (Array.isArray(v) ? v[0] : v);
 const selected = (context.config && context.config.region) || [];
 const ids = new Set(selected.map((o) => unwrap(o.rawId)).filter(Boolean));
 
-const rows = parseCsv(response.body).filter(
+const rows = parseCsv(typeof data === "string" ? data : response.body).filter(
     (r) => r["cloud-provider"] && r["cloud-region"],
 );
 const latestYear = {};

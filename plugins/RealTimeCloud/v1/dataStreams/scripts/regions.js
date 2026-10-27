@@ -54,7 +54,7 @@ const geo = (v) => {
 };
 
 const seen = new Set();
-result = parseCsv(response.body)
+result = parseCsv(typeof data === "string" ? data : response.body)
     .filter((r) => r["cloud-provider"] && r["cloud-region"])
     .sort((a, b) => Number(b.year) - Number(a.year))
     .flatMap((r) => {
