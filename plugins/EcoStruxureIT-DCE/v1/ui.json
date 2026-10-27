@@ -3,7 +3,7 @@
         "type": "text",
         "name": "serverUrl",
         "label": "Server URL",
-        "help": "The address of the Data Center Expert server, for example `https://dce.example.com`. The `/isxg` REST API path is added automatically, and anything after `/isxg` (such as `/isxg/dce-rest-api.html`) is ignored.",
+        "help": "The address of the Data Center Expert server, for example `https://dce.example.com`. The `/isxg` REST API path is added automatically.",
         "placeholder": "https://dce.example.com",
         "validation": {
             "required": true,
