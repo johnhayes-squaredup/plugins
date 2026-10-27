@@ -41,12 +41,13 @@ const parseCsv = (text) => {
     );
 };
 const num = (v) =>
-    v === "" || v.toUpperCase() === "NA"
+    v == null || v === "" || v.toUpperCase() === "NA"
         ? null
         : Number.isFinite(Number(v))
           ? Number(v)
           : null;
-const str = (v) => (v === "" || v.toUpperCase() === "NA" ? null : v);
+const str = (v) =>
+    v == null || v === "" || v.toUpperCase() === "NA" ? null : v;
 const geo = (v) => {
     const [lat, lon] = (v || "").split(",").map((s) => num(s.trim()));
     return { latitude: lat ?? null, longitude: lon ?? null };
