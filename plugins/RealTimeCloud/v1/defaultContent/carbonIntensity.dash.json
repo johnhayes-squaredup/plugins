@@ -204,7 +204,7 @@
                 "config": {
                     "_type": "tile/data-stream",
                     "title": "Grid carbon intensity trend by provider",
-                    "description": "Mean regional grid carbon intensity per year. Disclosed values, then estimates for years after each provider's latest disclosure.",
+                    "description": "Mean regional grid carbon intensity per year, from values disclosed by each provider. Years without a disclosure are not shown.",
                     "timeframe": "none",
                     "activePluginConfigIds": [
                         "{{configId}}"
@@ -213,7 +213,7 @@
                         "id": "datastream-sql",
                         "dataSourceConfig": {
                             "version": "2.0",
-                            "sql": "SELECT CAST(CAST(\"year\" AS INTEGER) AS VARCHAR) AS \"yearLabel\", \"provider\", ROUND(AVG(\"v\"), 0) AS \"avgGridCi\" FROM (SELECT \"h\".\"year\", \"h\".\"provider\", \"h\".\"gridCarbonIntensityConsumptionAnnual\" AS \"v\" FROM \"hist\" \"h\" UNION ALL SELECT \"e\".\"year\", \"e\".\"provider\", \"e\".\"gridCarbonIntensity\" FROM \"est\" \"e\" WHERE \"e\".\"year\" > (SELECT MAX(\"h2\".\"year\") FROM \"hist\" \"h2\" WHERE \"h2\".\"provider\" = \"e\".\"provider\")) \"u\" WHERE \"v\" IS NOT NULL GROUP BY \"year\", \"provider\" ORDER BY \"year\", \"provider\"",
+                            "sql": "SELECT CAST(CAST(\"year\" AS INTEGER) AS VARCHAR) AS \"yearLabel\", \"provider\", ROUND(AVG(\"gridCarbonIntensityConsumptionAnnual\"), 0) AS \"avgGridCi\" FROM \"hist\" WHERE \"gridCarbonIntensityConsumptionAnnual\" IS NOT NULL GROUP BY \"year\", \"provider\" ORDER BY \"year\", \"provider\"",
                             "tables": [
                                 {
                                     "tableName": "hist",
@@ -224,20 +224,6 @@
                                         "dataStream": {
                                             "id": "{{dataStreams.[regionMetadata]}}",
                                             "name": "regionMetadata",
-                                            "pluginConfigId": "{{configId}}"
-                                        },
-                                        "timeframe": "none"
-                                    }
-                                },
-                                {
-                                    "tableName": "est",
-                                    "config": {
-                                        "activePluginConfigIds": [
-                                            "{{configId}}"
-                                        ],
-                                        "dataStream": {
-                                            "id": "{{dataStreams.[regionEstimates]}}",
-                                            "name": "regionEstimates",
                                             "pluginConfigId": "{{configId}}"
                                         },
                                         "timeframe": "none"
